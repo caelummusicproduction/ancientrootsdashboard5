@@ -1,0 +1,2300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ancient Roots &mdash; Reels Dashboard v5</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PROVEN PALETTE &mdash; sourced from top-performing reels analysis
+   888 Hz (716K): #0A0A0A, #FFD700, #00E5A0, #E8A020
+   741 Hz (686K): #050505, #D4A017, #F5C842, #0C1B33
+   Dashboard shell uses these exact values as base
+   ============================================================ */
+:root {
+  /* Backgrounds &mdash; proven dark formula */
+  --bg:   #07070f;
+  --bg2:  #0c0c1a;
+  --bg3:  #111126;
+  --bg4:  #0a0a0a;
+
+  /* Borders */
+  --b1: rgba(255,255,255,0.14);
+  --b2: rgba(255,255,255,0.08);
+  --b3: rgba(255,255,255,0.04);
+
+  /* GOLD &mdash; hero color, proven 716K + 686K formula */
+  --gold:   #FFD700;
+  --gold2:  #D4A017;
+  --gold3:  #F5C842;
+  --gd:  rgba(255,215,0,0.10);
+  --gb:  rgba(255,215,0,0.32);
+
+  /* TEAL &mdash; proven CTA color */
+  --teal:  #00E5A0;
+  --teal2: #20B2AA;
+  --td:  rgba(0,229,160,0.10);
+  --tb:  rgba(0,229,160,0.32);
+
+  /* AMBER &mdash; warm accent */
+  --amber:  #E8A020;
+  --ad:  rgba(232,160,32,0.10);
+  --ab:  rgba(232,160,32,0.32);
+
+  /* VIOLET &mdash; spiritual accent (852 Hz, 963 Hz) */
+  --vio:  #8B2FC9;
+  --vio2: #3D1A6E;
+  --vd:  rgba(139,47,201,0.10);
+  --vb:  rgba(139,47,201,0.32);
+
+  /* CYAN &mdash; electric accent (528 Hz tuning fork) */
+  --cyan:  #00E5FF;
+  --cd:  rgba(0,229,255,0.10);
+  --cb:  rgba(0,229,255,0.30);
+
+  /* ROSE &mdash; urgency */
+  --rose:  #FF2D7A;
+  --rod:  rgba(255,45,122,0.10);
+  --rob:  rgba(255,45,122,0.30);
+
+  /* GREEN &mdash; growth */
+  --grn:  #4ade80;
+  --gnd:  rgba(74,222,128,0.10);
+  --gnb:  rgba(74,222,128,0.30);
+
+  /* TEXT */
+  --t1: #ffffff;
+  --t2: #dce4f0;
+  --t3: #8899b0;
+  --t4: #475569;
+
+  --serif: 'Cormorant Garamond', serif;
+  --sans:  'DM Sans', sans-serif;
+  --r: 13px;
+  --r-sm: 9px;
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body { height:100%; overflow:hidden; }
+body { background:var(--bg); color:var(--t2); font-family:var(--sans); font-size:15px; -webkit-font-smoothing:antialiased; }
+
+/* ---- SHELL ---- */
+.shell { display:flex; height:100vh; overflow:hidden; }
+
+/* ---- SIDEBAR ---- */
+.sidebar {
+  width:238px; flex-shrink:0;
+  background:var(--bg2);
+  border-right:1px solid var(--b2);
+  display:flex; flex-direction:column; overflow-y:auto;
+}
+.sb-logo {
+  padding:18px 16px 14px;
+  border-bottom:1px solid var(--b2);
+  background:linear-gradient(160deg,rgba(255,215,0,0.06) 0%,transparent 60%);
+}
+.sb-row { display:flex; align-items:center; gap:11px; margin-bottom:6px; }
+.sb-ico {
+  width:36px; height:36px; border-radius:50%;
+  background:var(--gd); border:1px solid var(--gb);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; flex-shrink:0;
+}
+.sb-name { font-family:var(--serif); font-size:18px; color:var(--t1); line-height:1.2; }
+.sb-sub  { font-size:10px; color:var(--teal); text-transform:uppercase; letter-spacing:2.5px; margin-top:1px; }
+.sb-pill {
+  display:inline-flex; align-items:center; gap:5px;
+  background:var(--gd); border:1px solid var(--gb);
+  border-radius:20px; padding:3px 10px;
+  font-size:10px; color:var(--gold); text-transform:uppercase; letter-spacing:1.5px; margin-top:8px;
+}
+.sb-sec { padding:13px 16px 4px; font-size:10px; text-transform:uppercase; letter-spacing:2.5px; color:var(--t4); }
+.nav { display:flex; flex-direction:column; gap:2px; padding:0 9px; }
+.ni {
+  display:flex; align-items:center; gap:9px;
+  padding:10px 12px; border-radius:var(--r-sm);
+  cursor:pointer; font-size:13.5px; color:var(--t3);
+  transition:all .15s; border:1px solid transparent;
+  user-select:none; min-height:42px;
+}
+.ni:hover  { background:rgba(255,255,255,0.04); color:var(--t2); }
+.ni.on     { background:var(--gd); border-color:var(--gb); color:var(--gold); }
+.ni-dot    { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.ni-badge  { margin-left:auto; font-size:10px; padding:2px 8px; border-radius:12px; background:var(--bg3); color:var(--t4); white-space:nowrap; }
+.ni.on .ni-badge { background:var(--gd); color:var(--gold); }
+
+.sb-foot  { margin-top:auto; padding:13px 14px; border-top:1px solid var(--b2); }
+.launch-box {
+  background:linear-gradient(135deg,var(--gd),rgba(255,215,0,0.05));
+  border:1px solid var(--gb); border-radius:var(--r); padding:14px; text-align:center;
+}
+.lb-num  { font-family:var(--serif); font-size:44px; color:var(--gold); line-height:1; }
+.lb-lbl  { font-size:10px; color:var(--t3); text-transform:uppercase; letter-spacing:1.5px; margin-top:3px; }
+.lb-date { font-size:11px; color:var(--gold2); margin-top:5px; opacity:.75; }
+
+/* ---- MAIN ---- */
+.main { flex:1; display:flex; flex-direction:column; overflow:hidden; min-width:0; }
+.topbar {
+  padding:12px 22px; border-bottom:1px solid var(--b2);
+  background:linear-gradient(90deg,var(--bg2),var(--bg2) 70%,rgba(255,215,0,0.03));
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-shrink:0;
+}
+.tb-title { font-family:var(--serif); font-size:22px; color:var(--t1); }
+.tb-r { display:flex; align-items:center; gap:10px; }
+.tb-date { font-size:12px; color:var(--t3); white-space:nowrap; }
+.pill {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:4px 12px; border-radius:20px; font-size:10px;
+  text-transform:uppercase; letter-spacing:1px; white-space:nowrap;
+}
+.pill-live  { background:var(--gnd); border:1px solid var(--gnb); color:var(--grn); }
+.pill-now   { background:var(--rod); border:1px solid var(--rob); color:var(--rose); }
+.pill-gold  { background:var(--gd);  border:1px solid var(--gb);  color:var(--gold); }
+.dot-live   { width:5px; height:5px; border-radius:50%; background:var(--grn); animation:blink 2s ease-in-out infinite; }
+.dot-now    { width:5px; height:5px; border-radius:50%; background:var(--rose); animation:blink 1.2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+/* ---- SCROLL ---- */
+.scroll { flex:1; overflow-y:auto; overflow-x:hidden; padding:22px; padding-bottom:100px; }
+.scroll::-webkit-scrollbar { width:3px; }
+.scroll::-webkit-scrollbar-thumb { background:var(--b1); border-radius:2px; }
+
+/* ---- PANELS ---- */
+.panel { display:none; animation:fi .2s ease; }
+.panel.on { display:block; }
+@keyframes fi { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+
+/* ---- STATS GRID ---- */
+.stats { display:grid; grid-template-columns:repeat(2,1fr); gap:11px; margin-bottom:18px; }
+.stat {
+  background:rgba(255,255,255,0.03); border:1px solid var(--b2);
+  border-radius:var(--r); padding:16px; position:relative; overflow:hidden;
+}
+.stat::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+.s-g::after  { background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+.s-t::after  { background:linear-gradient(90deg,transparent,var(--teal),transparent); }
+.s-v::after  { background:linear-gradient(90deg,transparent,var(--vio),transparent); }
+.s-a::after  { background:linear-gradient(90deg,transparent,var(--amber),transparent); }
+.st-lbl { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--t4); margin-bottom:7px; }
+.st-val { font-family:var(--serif); font-size:32px; color:var(--t1); line-height:1; }
+.st-sub { font-size:12px; color:var(--grn); margin-top:5px; }
+.st-sub.w { color:var(--gold); }
+.st-sub.r { color:var(--rose); }
+
+/* ---- SECTION HEADERS ---- */
+.sh-lbl   { font-size:10px; text-transform:uppercase; letter-spacing:2.5px; color:var(--teal); margin-bottom:5px; }
+.sh-title { font-family:var(--serif); font-size:26px; color:var(--t1); margin-bottom:9px; }
+.sh-desc  { font-size:14px; color:var(--t2); line-height:1.85; margin-bottom:18px; }
+
+/* ---- ALERT BOXES ---- */
+.alert { border-radius:var(--r); padding:15px 18px; font-size:14px; line-height:1.85; margin-bottom:16px; }
+.al-gold  { background:var(--gd);  border:1px solid var(--gb);  color:var(--t2); }
+.al-gold  strong { color:var(--gold); }
+.al-teal  { background:var(--td);  border:1px solid var(--tb);  color:var(--t2); }
+.al-teal  strong { color:var(--teal); }
+.al-rose  { background:var(--rod); border:1px solid var(--rob); color:var(--t2); }
+.al-rose  strong { color:var(--rose); }
+.al-vio   { background:var(--vd);  border:1px solid var(--vb);  color:var(--t2); }
+.al-vio   strong { color:var(--vio); }
+.al-amber { background:var(--ad);  border:1px solid var(--ab);  color:var(--t2); }
+.al-amber strong { color:var(--amber); }
+
+/* ---- FORMULA ---- */
+.formula {
+  background:var(--bg2); border:1px solid var(--b2);
+  border-radius:var(--r); padding:18px; margin-bottom:18px;
+  position:relative; overflow:hidden;
+}
+.formula::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--teal),transparent);
+}
+.f-lbl   { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:13px; }
+.f-terms { display:flex; flex-direction:column; gap:9px; }
+.f-term  { display:flex; align-items:flex-start; gap:10px; font-size:15px; color:var(--t2); line-height:1.5; }
+.f-plus  { color:var(--teal); font-size:18px; flex-shrink:0; width:18px; }
+.f-res   { margin-top:14px; padding-top:12px; border-top:1px solid var(--b2); font-family:var(--serif); font-size:20px; color:var(--gold); font-style:italic; }
+
+/* ---- DATA TABLE ---- */
+.dt-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:16px; }
+table.dt { width:100%; border-collapse:collapse; min-width:500px; }
+.dt th { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--t4); padding:10px 14px; text-align:left; border-bottom:1px solid var(--b2); font-weight:400; white-space:nowrap; }
+.dt td { padding:13px 14px; border-bottom:1px solid var(--b3); vertical-align:top; }
+.dt tr:last-child td { border-bottom:none; }
+.dn { font-size:14px; color:var(--t1); font-weight:500; line-height:1.4; }
+.dd { font-size:11px; color:var(--t4); margin-top:2px; }
+.db { font-family:var(--serif); font-size:22px; color:var(--gold); }
+.dm { font-size:15px; color:var(--t2); }
+.dc { font-family:var(--serif); font-size:22px; color:var(--teal); }
+
+/* ---- INFO CARD ---- */
+.icard { background:rgba(255,255,255,0.03); border:1px solid var(--b2); border-radius:var(--r); overflow:hidden; margin-bottom:16px; }
+.irow  { display:flex; gap:12px; padding:14px 16px; border-bottom:1px solid var(--b3); align-items:flex-start; }
+.irow:last-child { border-bottom:none; }
+.iico  { font-size:18px; flex-shrink:0; margin-top:2px; }
+.ititle { font-size:14px; color:var(--t1); font-weight:500; line-height:1.35; margin-bottom:4px; }
+.isub   { font-size:13px; color:var(--t3); line-height:1.75; }
+.isub strong { color:var(--t2); font-weight:500; }
+
+/* ---- PALETTE CHIPS ---- */
+.palette-row { display:flex; flex-wrap:wrap; gap:8px; margin:8px 0; }
+.chip { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--t3); }
+.chip-dot { width:14px; height:14px; border-radius:4px; border:1px solid rgba(255,255,255,.12); flex-shrink:0; }
+.chip-hex { font-family:monospace; font-size:10px; color:var(--t4); }
+
+/* ---- REEL CARDS ---- */
+.rlist { display:flex; flex-direction:column; gap:11px; }
+.rc {
+  background:rgba(255,255,255,0.03); border:1px solid var(--b2);
+  border-radius:var(--r); overflow:hidden; transition:border-color .2s;
+}
+.rc:hover      { border-color:var(--b1); }
+.rc.open       { border-color:var(--gb); }
+.rc.rc-today   { border-color:var(--rob) !important; }
+.rc.rc-posted  { opacity:.75; }
+.rch { display:flex; align-items:flex-start; gap:13px; padding:15px 17px; cursor:pointer; user-select:none; min-height:60px; }
+.rnum {
+  width:42px; height:42px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--serif); font-size:19px; flex-shrink:0; margin-top:1px;
+}
+.rn-gold  { background:var(--gd);  border:1px solid var(--gb);  color:var(--gold); }
+.rn-teal  { background:var(--td);  border:1px solid var(--tb);  color:var(--teal); }
+.rn-vio   { background:var(--vd);  border:1px solid var(--vb);  color:var(--vio); }
+.rn-amber { background:var(--ad);  border:1px solid var(--ab);  color:var(--amber); }
+.rn-rose  { background:var(--rod); border:1px solid var(--rob); color:var(--rose); }
+.rn-grn   { background:var(--gnd); border:1px solid var(--gnb); color:var(--grn); }
+.rn-cyan  { background:var(--cd);  border:1px solid var(--cb);  color:var(--cyan); }
+.ri { flex:1; min-width:0; }
+.rtitle { font-family:var(--serif); font-size:19px; color:var(--t1); line-height:1.3; margin-bottom:7px; }
+.tags { display:flex; flex-wrap:wrap; gap:5px; }
+.tag { font-size:10px; text-transform:uppercase; letter-spacing:1px; padding:3px 10px; border-radius:20px; border:1px solid; white-space:nowrap; }
+.tg-gold  { background:var(--gd);  border-color:var(--gb);  color:var(--gold); }
+.tg-teal  { background:var(--td);  border-color:var(--tb);  color:var(--teal); }
+.tg-vio   { background:var(--vd);  border-color:var(--vb);  color:var(--vio); }
+.tg-amber { background:var(--ad);  border-color:var(--ab);  color:var(--amber); }
+.tg-rose  { background:var(--rod); border-color:var(--rob); color:var(--rose); }
+.tg-grn   { background:var(--gnd); border-color:var(--gnb); color:var(--grn); }
+.tg-cyan  { background:var(--cd);  border-color:var(--cb);  color:var(--cyan); }
+.tg-x     { background:var(--bg3); border-color:var(--b2);  color:var(--t3); }
+.rright { display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0; margin-left:6px; }
+.rtime  { font-size:12px; color:var(--t2); white-space:nowrap; text-align:right; }
+.rlen   { font-size:11px; color:var(--t4); }
+.rchev  { font-size:18px; color:var(--t4); transition:transform .25s; margin-top:4px; }
+.rc.open .rchev { transform:rotate(180deg); color:var(--teal); }
+.today-badge { font-size:10px; background:var(--rod); border:1px solid var(--rob); color:var(--rose); padding:2px 8px; border-radius:12px; white-space:nowrap; }
+.posted-badge { font-size:10px; background:var(--gnd); border:1px solid var(--gnb); color:var(--grn); padding:2px 8px; border-radius:12px; }
+
+/* ---- REEL BODY ---- */
+.rcb { display:none; border-top:1px solid var(--b2); padding:20px 17px; }
+.rc.open .rcb { display:block; }
+.rbg { display:grid; grid-template-columns:1fr 1fr; gap:17px; margin-bottom:17px; }
+.rbf { grid-column:1/-1; }
+.rblbl { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--t4); margin-bottom:9px; }
+
+/* ---- STAGE BAR ---- */
+.stage-bar {
+  background:var(--bg3); border:1px solid var(--b2);
+  border-radius:var(--r-sm); padding:12px 15px;
+  margin-bottom:15px; display:flex; align-items:center; gap:12px;
+}
+.stage-ico { font-size:18px; flex-shrink:0; }
+.stage-label { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--t4); }
+.stage-name  { font-size:14px; font-weight:500; margin-top:2px; }
+.stage-desc  { font-size:12px; color:var(--t3); margin-top:2px; line-height:1.6; }
+
+/* ---- HOOK BOX ---- */
+.hook-box {
+  background:linear-gradient(135deg,rgba(255,215,0,0.07),rgba(0,229,160,0.05));
+  border:1px solid var(--gb); border-radius:var(--r);
+  padding:15px 17px; margin-bottom:15px;
+}
+.hook-lbl  { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:8px; }
+.hook-text { font-family:var(--serif); font-size:20px; color:var(--t1); line-height:1.55; font-style:italic; }
+
+/* ---- AUDIO BOX ---- */
+.audio-box { display:flex; gap:11px; background:var(--gd); border:1px solid var(--gb); border-radius:var(--r-sm); padding:13px 15px; }
+.aico   { font-size:22px; flex-shrink:0; }
+.atrack { font-size:15px; font-weight:500; color:var(--gold); line-height:1.3; margin-bottom:4px; }
+.adesc  { font-size:13px; color:var(--t3); line-height:1.7; }
+
+/* ---- CAPTION STRUCTURE GUIDE ---- */
+.cap-guide {
+  background:var(--bg3); border:1px solid var(--b2);
+  border-radius:var(--r-sm); overflow:hidden; margin-bottom:12px;
+}
+.cg-row { display:flex; gap:10px; padding:9px 13px; border-bottom:1px solid var(--b3); align-items:flex-start; }
+.cg-row:last-child { border-bottom:none; }
+.cg-num {
+  width:20px; height:20px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; color:var(--gold); background:var(--gd);
+  border:1px solid var(--gb); flex-shrink:0; margin-top:2px;
+}
+.cg-label { font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:1px; min-width:90px; flex-shrink:0; margin-top:3px; }
+.cg-text  { font-size:13px; color:var(--t2); line-height:1.7; }
+
+/* ---- SCREEN TEXT ---- */
+.screen { background:var(--bg3); border:1px solid var(--b2); border-radius:var(--r-sm); overflow:hidden; }
+.sln { display:flex; gap:11px; padding:10px 13px; border-bottom:1px solid var(--b3); align-items:flex-start; }
+.sln:last-child { border-bottom:none; }
+.stm  { font-size:10px; color:var(--teal); white-space:nowrap; min-width:60px; margin-top:2px; flex-shrink:0; }
+.stx  { font-size:13px; color:var(--t2); line-height:1.7; }
+.stx strong { color:var(--t1); }
+
+/* ---- CAPTION ---- */
+.caption {
+  background:var(--bg3);
+  border-left:3px solid var(--gold);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:15px 17px; font-size:14px; color:var(--t2);
+  line-height:2; white-space:pre-line;
+}
+
+/* ---- POWER WORDS ---- */
+.pw-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-bottom:16px; }
+.pw { background:var(--bg3); border:1px solid var(--b2); border-radius:var(--r-sm); padding:10px 13px; text-align:center; }
+.pw-word { font-family:var(--serif); font-size:18px; color:var(--gold); margin-bottom:3px; }
+.pw-type { font-size:10px; color:var(--t4); text-transform:uppercase; letter-spacing:1px; }
+
+/* ---- HASHTAGS ---- */
+.hrow { display:flex; flex-wrap:wrap; gap:7px; }
+.htag { font-size:12px; padding:4px 12px; border-radius:20px; background:var(--td); border:1px solid var(--tb); color:var(--teal); }
+
+/* ---- ACCURACY BOX ---- */
+.acc { background:var(--bg3); border:1px solid var(--b2); border-radius:var(--r-sm); padding:13px 15px; font-size:13px; color:var(--t3); line-height:1.8; }
+.acc strong { color:var(--gold2); font-weight:500; }
+
+/* ---- STEPS ---- */
+.steps { list-style:none; background:var(--bg3); border:1px solid var(--b2); border-radius:var(--r-sm); overflow:hidden; }
+.steps li { display:flex; gap:10px; padding:10px 13px; border-bottom:1px solid var(--b3); font-size:14px; color:var(--t2); line-height:1.7; align-items:flex-start; }
+.steps li:last-child { border-bottom:none; }
+.snn { width:22px; height:22px; border-radius:50%; background:var(--gd); border:1px solid var(--gb); display:flex; align-items:center; justify-content:center; font-size:9px; color:var(--gold); flex-shrink:0; margin-top:3px; }
+
+/* ---- PROD GUIDE ---- */
+.prod-guide { background:var(--bg2); border:1px solid var(--b2); border-radius:var(--r); overflow:hidden; margin-top:16px; }
+.prod-head { padding:11px 16px; background:var(--bg3); border-bottom:1px solid var(--b2); font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--vio); display:flex; align-items:center; gap:8px; }
+.prod-body { padding:16px; }
+.prod-grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+.prod-full { grid-column:1/-1; }
+.prod-block { background:var(--bg3); border:1px solid var(--b2); border-radius:var(--r-sm); overflow:hidden; }
+.prod-block-head { padding:9px 13px; background:rgba(255,255,255,0.03); border-bottom:1px solid var(--b3); font-size:10px; color:var(--t3); text-transform:uppercase; letter-spacing:1.5px; display:flex; align-items:center; gap:7px; }
+.prod-block-body { padding:12px 13px; font-size:13px; color:var(--t2); line-height:1.8; }
+.prod-block-body strong { color:var(--t1); font-weight:500; }
+.cs-list { list-style:none; }
+.cs-list li { display:flex; gap:9px; padding:7px 0; border-bottom:1px solid var(--b3); font-size:13px; color:var(--t2); line-height:1.65; align-items:flex-start; }
+.cs-list li:last-child { border-bottom:none; }
+.cs-num { width:20px; height:20px; border-radius:50%; background:var(--vd); border:1px solid var(--vb); display:flex; align-items:center; justify-content:center; font-size:9px; color:var(--vio); flex-shrink:0; margin-top:2px; }
+
+/* ---- SCHWARTZ LADDER ---- */
+.ladder { background:var(--bg2); border:1px solid var(--b2); border-radius:var(--r); overflow:hidden; margin-bottom:18px; }
+.ladder-head { padding:13px 17px; border-bottom:1px solid var(--b2); font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); }
+.l-row { display:flex; align-items:flex-start; gap:13px; padding:12px 17px; border-bottom:1px solid var(--b3); }
+.l-row:last-child { border-bottom:none; }
+.l-row.active { background:var(--td); border-left:2px solid var(--teal); }
+.l-row.active2 { background:var(--gd); border-left:2px solid var(--gold); }
+.l-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; margin-top:1px; }
+.l-body { flex:1; }
+.l-title { font-size:14px; color:var(--t1); font-weight:500; margin-bottom:3px; }
+.l-desc  { font-size:12px; color:var(--t3); line-height:1.7; }
+.l-reels { font-size:11px; color:var(--teal); margin-top:4px; }
+
+/* ---- TOP REELS TABLE ---- */
+.tr-grid { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-bottom:18px; }
+.tr-card { background:rgba(255,255,255,0.03); border:1px solid var(--b2); border-radius:var(--r); overflow:hidden; }
+.tr-head { padding:10px 14px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--b3); }
+.tr-views { font-family:var(--serif); font-size:22px; color:var(--gold); }
+.tr-hz    { font-size:11px; color:var(--teal); text-transform:uppercase; letter-spacing:1.5px; }
+.tr-body  { padding:12px 14px; }
+.tr-hook  { font-size:13px; color:var(--t2); line-height:1.7; margin-bottom:9px; font-style:italic; }
+.tr-pal   { display:flex; gap:5px; flex-wrap:wrap; }
+.tr-swatch { width:18px; height:18px; border-radius:4px; border:1px solid rgba(255,255,255,.12); }
+
+/* ---- COPY PATTERNS ---- */
+.cp-grid { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-bottom:18px; }
+.cp-card { background:rgba(255,255,255,0.03); border:1px solid var(--b2); border-radius:var(--r); padding:14px 16px; }
+.cp-head { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:10px; }
+.cp-item { font-size:13px; color:var(--t2); line-height:1.75; padding:5px 0; border-bottom:1px solid var(--b3); }
+.cp-item:last-child { border-bottom:none; }
+.cp-item::before { content:'&rsaquo;'; color:var(--teal); margin-right:6px; }
+
+/* ---- SCHEDULE ---- */
+.sched { display:grid; grid-template-columns:repeat(3,1fr); gap:11px; margin-bottom:18px; }
+.scrd { background:rgba(255,255,255,0.03); border:1px solid var(--b2); border-radius:var(--r); overflow:hidden; }
+.scrh { padding:10px 14px; background:var(--bg3); font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--teal); border-bottom:1px solid var(--b2); }
+.scri { padding:11px 14px; border-bottom:1px solid var(--b3); }
+.scri:last-child { border-bottom:none; }
+.sc-day   { font-size:10px; color:var(--teal); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+.sc-reel  { font-size:13px; color:var(--t1); font-weight:500; line-height:1.3; }
+.sc-time  { font-size:11px; color:var(--t3); margin-top:2px; }
+.sc-today  { background:var(--rod) !important; border-left:2px solid var(--rose); }
+.sc-today .sc-day  { color:var(--rose); }
+.sc-today .sc-reel { color:var(--rose); }
+.sc-launch { background:var(--gd) !important; border-left:2px solid var(--gold); }
+.sc-launch .sc-day  { color:var(--gold); }
+.sc-launch .sc-reel { color:var(--gold); }
+
+/* ---- ARCHETYPES ---- */
+.mx-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:16px; }
+table.mx { border-collapse:collapse; width:100%; min-width:520px; }
+.mx th { padding:11px 14px; font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--t4); background:var(--bg3); border:1px solid var(--b2); font-weight:400; }
+.mx th.th-t{color:var(--teal)} .mx th.th-g{color:var(--gold)} .mx th.th-v{color:var(--vio)}
+.mx td { padding:12px 14px; border:1px solid var(--b2); background:var(--bg2); vertical-align:top; }
+.mx td.gc { background:var(--bg3); font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--t3); white-space:nowrap; }
+.an { font-family:var(--serif); font-size:16px; display:block; margin-bottom:2px; }
+.af { font-size:11px; color:var(--t3); }
+.msc .an{color:var(--teal)} .msp .an{color:var(--gold)} .msb .an{color:var(--vio)}
+
+/* ---- SOURCES ---- */
+.src-link {
+  display:flex; align-items:flex-start; gap:13px;
+  background:rgba(255,255,255,0.03); border:1px solid var(--b2);
+  border-radius:var(--r); padding:14px 16px; margin-bottom:9px;
+  text-decoration:none; transition:border-color .2s,background .2s; cursor:pointer;
+}
+.src-link:hover { border-color:var(--teal); background:var(--td); }
+.src-num { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; flex-shrink:0; margin-top:1px; }
+.src-body { flex:1; min-width:0; }
+.src-title { font-size:14px; color:var(--t1); font-weight:500; line-height:1.4; margin-bottom:3px; }
+.src-desc  { font-size:12px; color:var(--t3); line-height:1.6; margin-bottom:4px; }
+.src-url   { font-size:11px; color:var(--teal); }
+.src-arrow { font-size:16px; color:var(--t4); flex-shrink:0; margin-top:2px; }
+.src-cat   { font-size:10px; text-transform:uppercase; letter-spacing:2.5px; color:var(--gold); margin:18px 0 9px; padding-bottom:6px; border-bottom:1px solid var(--b2); }
+
+/* ---- MOBILE NAV ---- */
+.mob-nav { display:none; position:fixed; bottom:0; left:0; right:0; background:rgba(10,10,10,.97); border-top:1px solid var(--b2); z-index:200; padding:4px 0 env(safe-area-inset-bottom); backdrop-filter:blur(14px); }
+.mob-inner { display:flex; overflow-x:auto; scrollbar-width:none; }
+.mob-inner::-webkit-scrollbar { display:none; }
+.mi { flex:1; min-width:50px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:7px 3px 5px; cursor:pointer; user-select:none; border-radius:var(--r-sm); margin:3px 2px; transition:background .14s; gap:2px; }
+.mi.on { background:var(--gd); }
+.mi-ico { font-size:20px; }
+.mi-lbl { font-size:9px; text-transform:uppercase; letter-spacing:.7px; color:var(--t4); white-space:nowrap; }
+.mi.on .mi-lbl { color:var(--gold); }
+
+/* ---- NANO BANANA COVER GUIDE ---- */
+.nb-guide {
+  background:var(--bg2); border:1px solid var(--b2);
+  border-radius:var(--r); overflow:hidden; margin-bottom:16px;
+}
+.nb-head {
+  padding:11px 16px; background:linear-gradient(90deg,rgba(255,215,0,0.12),rgba(0,229,160,0.08));
+  border-bottom:1px solid var(--b2); font-size:10px; text-transform:uppercase;
+  letter-spacing:2px; color:var(--gold); display:flex; align-items:center; gap:8px;
+}
+.nb-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--b2); }
+.nb-block { background:var(--bg2); padding:13px 15px; }
+.nb-block-full { grid-column:1/-1; background:var(--bg2); padding:13px 15px; border-top:1px solid var(--b2); }
+.nb-block-head { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--t4); margin-bottom:9px; display:flex; align-items:center; gap:6px; }
+.nb-block-body { font-size:13px; color:var(--t2); line-height:1.8; }
+.nb-block-body strong { color:var(--t1); }
+.nb-palette { display:flex; flex-wrap:wrap; gap:7px; margin-top:9px; }
+.nb-chip { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--t3); }
+.nb-dot { width:14px; height:14px; border-radius:4px; border:1px solid rgba(255,255,255,.12); flex-shrink:0; }
+.nb-prompt {
+  background:var(--bg4); border:1px solid var(--gb);
+  border-radius:var(--r-sm); padding:13px 15px;
+  font-size:13px; color:var(--teal); line-height:1.85;
+  font-style:italic; position:relative;
+}
+.nb-prompt::before {
+  content:'PASTE INTO NANO BANANA';
+  display:block; font-style:normal; font-size:9px;
+  text-transform:uppercase; letter-spacing:2px;
+  color:var(--gold); margin-bottom:8px; opacity:.8;
+}
+.nb-text-layout { font-size:13px; color:var(--t2); line-height:1.9; }
+.nb-text-layout .nb-line { padding:5px 0; border-bottom:1px solid var(--b3); display:flex; gap:10px; align-items:flex-start; }
+.nb-text-layout .nb-line:last-child { border-bottom:none; }
+.nb-line-pos { font-size:10px; color:var(--gold); text-transform:uppercase; letter-spacing:1px; min-width:70px; flex-shrink:0; margin-top:3px; }
+.nb-line-copy { font-size:13px; color:var(--t2); line-height:1.7; }
+/* ---- RESPONSIVE ---- */
+@media(max-width:768px) {
+  .sidebar{display:none} .mob-nav{display:block}
+  .scroll{padding:14px;padding-bottom:92px}
+  .stats{gap:9px} .st-val{font-size:28px}
+  .rbg,.prod-grid,.tr-grid,.cp-grid,.sched,.nb-grid{grid-template-columns:1fr}
+  .rright{display:none} .rch{padding:13px 14px}
+  .topbar{padding:11px 14px} .tb-date{display:none}
+  .tb-title{font-size:19px} .sh-title{font-size:21px}
+  .pw-grid{grid-template-columns:repeat(2,1fr)}
+}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--b1);border-radius:2px}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ======================================================
+     SIDEBAR
+====================================================== -->
+<nav class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-row">
+      <div class="sb-ico">&#127807;</div>
+      <div><div class="sb-name">Ancient Roots</div><div class="sb-sub">Reels Dashboard v5</div></div>
+    </div>
+    <div class="sb-pill">&#9733; Data-Proven + Schwartz</div>
+  </div>
+  <div class="sb-sec">Overview</div>
+  <div class="nav">
+    <div class="ni on" onclick="show('ov',this)"><div class="ni-dot" style="background:var(--grn)"></div>Dashboard<span class="ni-badge">Live</span></div>
+    <div class="ni" onclick="show('dt',this)"><div class="ni-dot" style="background:var(--gold)"></div>Performance Data</div>
+    <div class="ni" onclick="show('tr',this)"><div class="ni-dot" style="background:var(--amber)"></div>Top Reels Analysis<span class="ni-badge">13</span></div>
+    <div class="ni" onclick="show('sw',this)"><div class="ni-dot" style="background:var(--vio)"></div>Schwartz Framework</div>
+  </div>
+  <div class="sb-sec">Reel Series</div>
+  <div class="nav">
+    <div class="ni" onclick="show('r15',this)"><div class="ni-dot" style="background:var(--grn)"></div>Reels 1-6<span class="ni-badge">Posted</span></div>
+    <div class="ni" onclick="show('r710',this)"><div class="ni-dot" style="background:var(--rose)"></div>Reels 7-10<span class="ni-badge">This Week</span></div>
+    <div class="ni" onclick="show('r1115',this)"><div class="ni-dot" style="background:var(--gold)"></div>Reels 11-15<span class="ni-badge">Launch</span></div>
+  </div>
+  <div class="sb-sec">Reference</div>
+  <div class="nav">
+    <div class="ni" onclick="show('cp',this)"><div class="ni-dot" style="background:var(--cyan)"></div>Copy Playbook</div>
+    <div class="ni" onclick="show('arc',this)"><div class="ni-dot" style="background:var(--gold)"></div>Archetypes</div>
+    <div class="ni" onclick="show('sch',this)"><div class="ni-dot" style="background:var(--vio)"></div>Schedule</div>
+    <div class="ni" onclick="show('sop',this)"><div class="ni-dot" style="background:var(--teal)"></div>Launch SOP</div>
+    <div class="ni" onclick="show('src',this)"><div class="ni-dot" style="background:var(--amber)"></div>Sources<span class="ni-badge">10</span></div>
+  </div>
+  <div class="sb-foot">
+    <div class="launch-box">
+      <div class="lb-num">11</div>
+      <div class="lb-lbl">Days to Launch</div>
+      <div class="lb-date">April 11, 2026</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ======================================================
+     MAIN
+====================================================== -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-title" id="ptitle">Dashboard</div>
+    <div class="tb-r">
+      <div class="tb-date">Mar 31 &ndash; Apr 11, 2026</div>
+      <div class="pill pill-now"><div class="dot-now"></div>Reel 7 Due Today</div>
+    </div>
+  </div>
+  <div class="scroll" id="scroll">
+
+<!-- ============================================================
+     OVERVIEW
+============================================================ -->
+<div class="panel on" id="p-ov">
+  <div class="stats">
+    <div class="stat s-g"><div class="st-lbl">Followers</div><div class="st-val">215K+</div><div class="st-sub">+6K in 28 days</div></div>
+    <div class="stat s-t"><div class="st-lbl">48hr Watch Time Peak</div><div class="st-val">312M</div><div class="st-sub">+219% all organic</div></div>
+    <div class="stat s-a"><div class="st-lbl">Non-Follower Views</div><div class="st-val">84%</div><div class="st-sub">Algorithm pushing cold</div></div>
+    <div class="stat s-v"><div class="st-lbl">Days to Launch</div><div class="st-val">11</div><div class="st-sub w">April 11 target</div></div>
+  </div>
+
+  <div class="alert al-rose"><strong>TODAY &mdash; Tuesday Mar 31 &mdash; Reel 7 must post at 7:00 AM ET.</strong> The Exhaustion Mirror. See Reels 7-10 tab for the full Schwartz-aligned, data-proven production guide including the exact caption structure your top 13 reels confirm works.</div>
+
+  <div class="formula">
+    <div class="f-lbl">Master Formula &mdash; Confirmed Across 13 Top-Performing Reels</div>
+    <div class="f-terms">
+      <div class="f-term"><span class="f-plus">+</span>Lead with the emotional problem or curiosity gap &mdash; never the product</div>
+      <div class="f-term"><span class="f-plus">+</span>Back with science or spiritual authority &mdash; specific Hz numbers are brand hooks</div>
+      <div class="f-term"><span class="f-plus">+</span>Deep black background (#0A0A0A) + gold hero color (#FFD700) &mdash; proven visual formula</div>
+      <div class="f-term"><span class="f-plus">+</span>Short punchy sentence rhythm &mdash; "Close your eyes. Breathe in. Let the noise fade."</div>
+      <div class="f-term"><span class="f-plus">+</span>CTA: Save / Tag someone / Listen now &mdash; drives shares and saves, not just likes</div>
+      <div class="f-term"><span class="f-plus">+</span>Post 7:00&ndash;8:00 AM ET &mdash; your data confirms this window every time</div>
+    </div>
+    <div class="f-res">= Organic reach that scales &mdash; 716K views on 888 Hz, 686K on 741 Hz, all zero ad spend</div>
+  </div>
+
+  <div class="icard">
+    <div class="irow"><div class="iico">&#128308;</div><div><div class="ititle">The #1 Insight From All 13 Top Reels</div><div class="isub">Every single post above 50K views leads with either an emotional problem ("Feeling heavy?") or a curiosity gap ("Nikola Tesla said these three numbers..."). Not one of them opens with a product feature. The Hz number is the hook &mdash; <strong>888, 741, 852, 528, 396</strong> &mdash; these numbers have become brand-level identifiers for your audience. Always lead with the number.</div></div></div>
+    <div class="irow"><div class="iico">&#127759;</div><div><div class="ititle">Color Formula is Settled &mdash; Match Your Reels to It</div><div class="isub">The two highest-performing reels (716K and 686K) both use <strong>#0A0A0A deep black + #FFD700 gold as the dominant formula</strong>. Every new reel should open with this palette as the default before adding frequency-specific accent colors. Teal-green (#00E5A0) is your proven CTA color &mdash; it is what drove "Save and use as needed" engagement.</div></div></div>
+    <div class="irow"><div class="iico">&#128683;</div><div><div class="ititle">Hard Cutoff &mdash; 9:00 AM ET Every Day</div><div class="isub">963 Hz posted at 12:25 PM significantly underperformed identical content from morning slots. Your data is unambiguous. 7:00 AM ET is the target. 8:00 AM ET is the maximum. Set your alarm for 6:45 AM every morning this week.</div></div></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PERFORMANCE DATA
+============================================================ -->
+<div class="panel" id="p-dt">
+  <div class="sh-lbl">Feb 23 &ndash; Mar 22, 2026</div>
+  <div class="sh-title">Performance Data &mdash; Organic Breakout</div>
+  <div class="sh-desc">Zero ad spend. Every metric earned through content alone. This is a sustained algorithmic breakout, not a spike.</div>
+  <div class="stats">
+    <div class="stat s-g"><div class="st-lbl">Total Views</div><div class="st-val">1.3M</div><div class="st-sub">+205.9% vs prior</div></div>
+    <div class="stat s-t"><div class="st-lbl">Watch Time</div><div class="st-val">159d 8h</div><div class="st-sub">+219.1% zero spend</div></div>
+    <div class="stat s-a"><div class="st-lbl">3-Second Views</div><div class="st-val">457K</div><div class="st-sub">+231.9% hook rate</div></div>
+    <div class="stat s-v"><div class="st-lbl">Net New Follows</div><div class="st-val">5,638</div><div class="st-sub">+474.1% accelerating</div></div>
+  </div>
+  <div class="sh-lbl">All-Time Watch Time Leaders</div>
+  <div class="dt-wrap">
+    <table class="dt">
+      <thead><tr><th>Post</th><th>Watch Time</th><th>Avg View</th><th>Views</th><th>Shares</th></tr></thead>
+      <tbody>
+        <tr><td><div class="dn">Feeling heavy? 741 Hz emotional detox</div><div class="dd">Mon Mar 9, 7:13am</div></td><td><div class="db">48d 16h</div></td><td><div class="dm">17s</div></td><td><div class="dm">380.1K</div></td><td><div class="dc">987</div></td></tr>
+        <tr><td><div class="dn">888 Hz Abundance Activation</div><div class="dd">Top reel &mdash; 716K total views</div></td><td><div class="db">Top #1</div></td><td><div class="dm">&mdash;</div></td><td><div class="dm">716K</div></td><td><div class="dc">&mdash;</div></td></tr>
+        <tr><td><div class="dn">Nikola Tesla 369 Hz Key to Universe</div><div class="dd">Sun Mar 15, 8:52am</div></td><td><div class="db">852.2M min</div></td><td><div class="dm">17s</div></td><td><div class="dm">71.7K</div></td><td><div class="dc">189</div></td></tr>
+        <tr><td><div class="dn">Mercury moved forward &mdash; 888 Hz</div><div class="dd">Sat Mar 21, 9:14am</div></td><td><div class="db">730.6M min</div></td><td><div class="dm">21s</div></td><td><div class="dm">54.5K</div></td><td><div class="dc">129</div></td></tr>
+        <tr><td><div class="dn">963 Hz Crown Chakra deep stillness</div><div class="dd">Tue Mar 10, 12:25pm &mdash; LATE POST</div></td><td><div class="db">545.7M min</div></td><td><div class="dm">18s</div></td><td><div class="dm">46.1K</div></td><td><div class="dc">130</div></td></tr>
+        <tr><td><div class="dn">111 Hz cellular reset / divine order</div><div class="dd">Thu Feb 26, 7:20am</div></td><td><div class="db">543.1M min</div></td><td><div class="dm">20s</div></td><td><div class="dm">42.9K</div></td><td><div class="dc">108</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert al-gold"><strong>Pattern confirmed across all 13 top posts:</strong> Every post that crossed 50K views opens with an emotion or curiosity hook and leads with the Hz number prominently. The 963 Hz post at 12:25 PM is the outlier &mdash; strong content, wrong time window, proving that timing is as important as copy.</div>
+</div>
+
+<!-- ============================================================
+     TOP REELS ANALYSIS
+============================================================ -->
+<div class="panel" id="p-tr">
+  <div class="sh-lbl">190 Reels Analyzed &mdash; Mar 30, 2026</div>
+  <div class="sh-title">Top 13 Reels &mdash; 50K+ Views Each</div>
+  <div class="sh-desc">These are your proven visual formulas, copy hooks, and color palettes. Every new reel in this launch series is built on what these 13 posts confirmed works with your specific audience. Match the palette, match the rhythm, match the hook structure.</div>
+
+  <div class="tr-grid">
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">716K</div><div class="tr-hz">888 Hz &mdash; Abundance</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"Unlock the Flow of Calm and Abundance. The 888 Hz frequency is a powerful vibrational code linked to infinite abundance, alignment, and spiritual balance. Feeling stuck? This is your energetic reset."</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#0A0A0A" title="#0A0A0A"></div>
+          <div class="tr-swatch" style="background:#FFD700" title="#FFD700"></div>
+          <div class="tr-swatch" style="background:#00E5A0" title="#00E5A0"></div>
+          <div class="tr-swatch" style="background:#E8A020" title="#E8A020"></div>
+          <div class="tr-swatch" style="background:#2D1B4E" title="#2D1B4E"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">686K</div><div class="tr-hz">741 Hz &mdash; Emotional Detox</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"Feeling heavy? It's time to release. 741 Hz is the frequency of emotional detox &mdash; known to clear toxins, negative energy, and self-sabotaging thought patterns."</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#050505" title="#050505"></div>
+          <div class="tr-swatch" style="background:#D4A017" title="#D4A017"></div>
+          <div class="tr-swatch" style="background:#F5C842" title="#F5C842"></div>
+          <div class="tr-swatch" style="background:#C47A1A" title="#C47A1A"></div>
+          <div class="tr-swatch" style="background:#0C1B33" title="#0C1B33"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">188K</div><div class="tr-hz">852 Hz &mdash; Third Eye</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"Close your eyes. Breathe in. Let the noise fade. 852 Hz is a favorite for meditation and focus. Save this for your next 15 second reset."</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#1A0A3E" title="#1A0A3E"></div>
+          <div class="tr-swatch" style="background:#8B2FC9" title="#8B2FC9"></div>
+          <div class="tr-swatch" style="background:#E8872D" title="#E8872D"></div>
+          <div class="tr-swatch" style="background:#E63946" title="#E63946"></div>
+          <div class="tr-swatch" style="background:#2DC92F" title="#2DC92F"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">124K</div><div class="tr-hz">369 Hz &mdash; Tesla</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"Nikola Tesla Said These Three Numbers Were The Key To The Universe. We Turned Them Into A Frequency."</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#0D0D1A" title="#0D0D1A"></div>
+          <div class="tr-swatch" style="background:#D4A520" title="#D4A520"></div>
+          <div class="tr-swatch" style="background:#1E90FF" title="#1E90FF"></div>
+          <div class="tr-swatch" style="background:#7B2FBE" title="#7B2FBE"></div>
+          <div class="tr-swatch" style="background:#E0D8F0" title="#E0D8F0"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">95K</div><div class="tr-hz">396 Hz &mdash; Transformation</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"Feel the power of transformation with the 396 Hz frequency. Let go of fear, release guilt, and reconnect with your inner strength."</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#0A0A14" title="#0A0A14"></div>
+          <div class="tr-swatch" style="background:#9B30FF" title="#9B30FF"></div>
+          <div class="tr-swatch" style="background:#FFB833" title="#FFB833"></div>
+          <div class="tr-swatch" style="background:#00BFFF" title="#00BFFF"></div>
+          <div class="tr-swatch" style="background:#3D1F00" title="#3D1F00"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">82K</div><div class="tr-hz">528 Hz &mdash; Love / Miracle Tone</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"528 Hz Love Frequency. The Miracle Tone for transformation, heart healing and DNA repair. Listen for 20 seconds and feel the shift."</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#0F0825" title="#0F0825"></div>
+          <div class="tr-swatch" style="background:#6B3FA0" title="#6B3FA0"></div>
+          <div class="tr-swatch" style="background:#D63384" title="#D63384"></div>
+          <div class="tr-swatch" style="background:#F0F0FF" title="#F0F0FF"></div>
+          <div class="tr-swatch" style="background:#2E8B57" title="#2E8B57"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">73K</div><div class="tr-hz">888 Hz &mdash; Mercury Direct</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"Yesterday the earth shifted. Mercury moved forward. And 888 Hz is still the only frequency I want in my ears."</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#0B1026" title="#0B1026"></div>
+          <div class="tr-swatch" style="background:#D4943A" title="#D4943A"></div>
+          <div class="tr-swatch" style="background:#F0C75E" title="#F0C75E"></div>
+          <div class="tr-swatch" style="background:#3D1A6E" title="#3D1A6E"></div>
+          <div class="tr-swatch" style="background:#8B6914" title="#8B6914"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">72K</div><div class="tr-hz">111 Hz &mdash; Cellular Reset</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"This frequency isn't just a sound &mdash; it's a cellular reset. 111 Hz is known as the frequency of divine order, activating the brain's pre-frontal cortex."</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#1A3A2A" title="#1A3A2A"></div>
+          <div class="tr-swatch" style="background:#5C2D91" title="#5C2D91"></div>
+          <div class="tr-swatch" style="background:#8B5E3C" title="#8B5E3C"></div>
+          <div class="tr-swatch" style="background:#20B2AA" title="#20B2AA"></div>
+          <div class="tr-swatch" style="background:#CC7722" title="#CC7722"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">66K</div><div class="tr-hz">528 Hz &mdash; Tuning Fork</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"This is what 528 Hz sounds like on a tuning fork." &mdash; Minimalist hook. Visual-first. Fascination through demonstration.</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#0A1128" title="#0A1128"></div>
+          <div class="tr-swatch" style="background:#00E5FF" title="#00E5FF"></div>
+          <div class="tr-swatch" style="background:#FF1493" title="#FF1493"></div>
+          <div class="tr-swatch" style="background:#FFD700" title="#FFD700"></div>
+          <div class="tr-swatch" style="background:#00CED1" title="#00CED1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">64K</div><div class="tr-hz">741 Hz &mdash; Throat Chakra</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"Throat Chakra &mdash; The Power of Voice and Truth. Your voice is more than sound &mdash; it's a reflection of your soul."</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#0D1B3E" title="#0D1B3E"></div>
+          <div class="tr-swatch" style="background:#1E90FF" title="#1E90FF"></div>
+          <div class="tr-swatch" style="background:#6A0DAD" title="#6A0DAD"></div>
+          <div class="tr-swatch" style="background:#E0E8FF" title="#E0E8FF"></div>
+          <div class="tr-swatch" style="background:#00BFFF" title="#00BFFF"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">60K</div><div class="tr-hz">888 Hz &mdash; Infinity Symbol</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">888 Hz themed with infinity symbol visual. Identity-driven &mdash; the symbol IS the hook. No text needed beyond the frequency number.</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#C0392B" title="#C0392B"></div>
+          <div class="tr-swatch" style="background:#E67E22" title="#E67E22"></div>
+          <div class="tr-swatch" style="background:#FFD700" title="#FFD700"></div>
+          <div class="tr-swatch" style="background:#9B59B6" title="#9B59B6"></div>
+          <div class="tr-swatch" style="background:#8B4513" title="#8B4513"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">57K</div><div class="tr-hz">963 Hz &mdash; Crown Chakra</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"963 Hz Crown Chakra frequency for deep stillness and clarity. Put on headphones, breathe slow, and let this sound meditation support relaxation."</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#0A0510" title="#0A0510"></div>
+          <div class="tr-swatch" style="background:#E01060" title="#E01060"></div>
+          <div class="tr-swatch" style="background:#FF2D55" title="#FF2D55"></div>
+          <div class="tr-swatch" style="background:#F0EAF0" title="#F0EAF0"></div>
+          <div class="tr-swatch" style="background:#2E0854" title="#2E0854"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tr-card">
+      <div class="tr-head"><div><div class="tr-views">50K</div><div class="tr-hz">852 Hz &mdash; Science Catches Up</div></div></div>
+      <div class="tr-body">
+        <div class="tr-hook">"This Ancient Frequency Was Used For Thousands of Years. Now Science Is Catching Up." &mdash; Authority hook. Ancient + modern = credibility bridge.</div>
+        <div class="tr-pal">
+          <div class="tr-swatch" style="background:#050510" title="#050510"></div>
+          <div class="tr-swatch" style="background:#4169E1" title="#4169E1"></div>
+          <div class="tr-swatch" style="background:#7B68EE" title="#7B68EE"></div>
+          <div class="tr-swatch" style="background:#00CED1" title="#00CED1"></div>
+          <div class="tr-swatch" style="background:#D8D8F0" title="#D8D8F0"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert al-amber"><strong>Master palette insight:</strong> 11 of the 13 top reels use a near-black background (between #050505 and #1A0A3E). Gold (#FFD700 or #D4A017) appears as the dominant accent in the two highest-performing reels. Teal (#00E5A0 or #20B2AA) is the CTA accent in 5 of 13. The dashboard and every production guide now reflects these exact proven values &mdash; not approximations.</div>
+</div>
+
+<!-- ============================================================
+     SCHWARTZ FRAMEWORK
+============================================================ -->
+<div class="panel" id="p-sw">
+  <div class="sh-lbl">Eugene Schwartz &mdash; Breakthrough Advertising</div>
+  <div class="sh-title">The 5 Awareness Stages Applied to Ancient Roots</div>
+  <div class="sh-desc">Schwartz identified five levels of customer awareness. Your copy must meet the prospect exactly where they are &mdash; not where you wish they were. The data from your top 13 reels confirms this framework: every post above 50K views enters at Stage 2 (Problem Aware) or Stage 3 (Solution Aware), not at Stage 4 or 5.</div>
+
+  <div class="ladder">
+    <div class="ladder-head">&#9650; Awareness Ladder &mdash; Where Your Audience Is Right Now</div>
+    <div class="l-row"><div class="l-num" style="background:var(--bg3);border:1px solid var(--b2);color:var(--t4)">1</div><div class="l-body"><div class="l-title" style="color:var(--t4)">Unaware &mdash; Lead with pure story or emotion</div><div class="l-desc">Does not know they have a problem. Not your launch audience.</div></div></div>
+    <div class="l-row active"><div class="l-num" style="background:var(--rod);border:1px solid var(--rob);color:var(--rose)">2</div><div class="l-body"><div class="l-title" style="color:var(--rose)">Problem Aware &mdash; WHERE MOST NEW FOLLOWERS ARE</div><div class="l-desc">They feel the exhaustion, the disrupted sleep, the disconnection. They do not yet know frequency is the solution. "Feeling heavy?" hook is Stage 2 content &mdash; that is why it got 686K views.</div><div class="l-reels">Reels 7 and 8 operate here. Lead with the lived problem.</div></div></div>
+    <div class="l-row active"><div class="l-num" style="background:var(--gd);border:1px solid var(--gb);color:var(--gold)">3</div><div class="l-body"><div class="l-title" style="color:var(--gold)">Solution Aware &mdash; WHERE ENGAGED FOLLOWERS ARE</div><div class="l-desc">They know solutions exist &mdash; meditation, wellness apps &mdash; but have not committed to frequency specifically. "This ancient frequency was used for thousands of years. Now science is catching up." is Stage 3 content &mdash; 50K+ views.</div><div class="l-reels">Reel 9 bridges here with your origin story as the credibility mechanism.</div></div></div>
+    <div class="l-row"><div class="l-num" style="background:var(--td);border:1px solid var(--tb);color:var(--teal)">4</div><div class="l-body"><div class="l-title" style="color:var(--teal)">Product Aware &mdash; Ancient Roots specifically</div><div class="l-desc">They know Ancient Roots exists and want to know why it is different. Quiz differentiator, archetype system, human authorship.</div><div class="l-reels">Reel 10. Now you show the app &mdash; framed as the answer to a frustration, not a feature tour.</div></div></div>
+    <div class="l-row"><div class="l-num" style="background:var(--vd);border:1px solid var(--vb);color:var(--vio)">5</div><div class="l-body"><div class="l-title" style="color:var(--vio)">Most Aware &mdash; They believe. Give them permission to act.</div><div class="l-desc">Social proof, urgency through loss, the launch itself. The URL appears for the first time only at Reel 15.</div><div class="l-reels">Reels 11 through 15.</div></div></div>
+  </div>
+
+  <div class="alert al-vio"><strong>The Schwartz Mechanism Principle:</strong> Your three mechanisms are (1) specific Hz frequencies with documented physiological effects, (2) human composition rather than algorithmic generation, and (3) personalized prescription via the archetype quiz rather than guessing. These are what your top 13 reels prove works &mdash; "cellular reset," "vibrational code," "pre-frontal cortex activation." Specific, named, believable mechanisms stop the scroll. Vague wellness claims get ignored.</div>
+</div>
+
+<!-- ============================================================
+     REELS 1-6 (POSTED)
+============================================================ -->
+<div class="panel" id="p-r15">
+  <div class="sh-lbl">Status &mdash; Complete</div>
+  <div class="sh-title">Reels 1 to 6 &mdash; Posted and Live</div>
+  <div class="sh-desc">Reels 1 through 6 are live. They introduced the archetype system (Reels 1-2), the 111 Hz science hook (Reel 3), the sleep mechanism (Reel 4), the Tesla angle (Reel 5), and the Angel Sequence (Reel 6). The audience has been warmed from Unaware toward Solution Aware. Reels 7-10 now build the bridge to Product Aware using your proven top-reel formula.</div>
+  <div class="alert al-teal"><strong>What Reels 1-6 accomplished:</strong> The archetype reveal and Tesla post drove the strongest identity and curiosity engagement. The Angel Sequence introduced the doubling frequency pattern. The groundwork is set &mdash; your audience now knows the Ancient Roots name and has seen frequency education content. Reels 7-10 deepen the emotional problem framing before the product becomes the focal point, exactly as Schwartz prescribes and as your 741 Hz and 888 Hz top posts confirm works.</div>
+</div>
+
+<!-- ============================================================
+     REELS 7-10
+============================================================ -->
+<div class="panel" id="p-r710">
+  <div class="sh-lbl">This Week &mdash; Mar 31 to Apr 3</div>
+  <div class="sh-title">Reels 7 to 10 &mdash; Data-Proven + Schwartz-Aligned</div>
+  <div class="sh-desc">Every hook, caption structure, color palette, and production choice in these four reels is built from what your top 13 posts confirmed works. Captions follow the proven 5-part structure: Hook / Authority / Benefit stack / CTA / Hashtags.</div>
+  <div class="rlist">
+
+    <!-- ===== REEL 7 ===== -->
+    <div class="rc rc-today open" id="rc7">
+      <div class="rch" onclick="tog('rc7')">
+        <div class="rnum rn-rose">7</div>
+        <div class="ri">
+          <div class="rtitle">The Exhaustion Mirror &mdash; Your Nervous System Is Out of Tune</div>
+          <div class="tags"><span class="tag tg-rose">POST TODAY 7AM</span><span class="tag tg-gold">741 Hz Formula</span><span class="tag tg-teal">Problem Aware</span><span class="tag tg-x">30 sec</span></div>
+        </div>
+        <div class="rright"><div class="today-badge">TODAY</div><div class="rtime">Tue Mar 31 &mdash; 7:00 AM ET</div><div class="rlen">30 sec</div><div class="rchev">&#9650;</div></div>
+      </div>
+      <div class="rcb">
+
+        <div class="stage-bar">
+          <div class="stage-ico">&#127919;</div>
+          <div><div class="stage-label">Schwartz Stage</div><div class="stage-name" style="color:var(--rose)">Problem Aware &mdash; mirrors the 741 Hz formula that drove 686K views</div><div class="stage-desc">Lead entirely with the emotional problem. No app until the final 5 seconds. This is the exact structure of your #2 all-time post.</div></div>
+        </div>
+
+        <div class="hook-box">
+          <div class="hook-lbl">Your Hook &mdash; Proven "Feeling Heavy?" Structure</div>
+          <div class="hook-text">"The reason you cannot fully rest &mdash; even when nothing is wrong &mdash; is not stress. It is your nervous system running at a frequency it was never meant to sustain."</div>
+        </div>
+
+        <div class="rbg">
+          <div>
+            <div class="rblbl">Recommended Audio</div>
+            <div class="audio-box"><div class="aico">&#127925;</div><div><div class="atrack">741 Hz &mdash; Clarity / Emotional Detox (audible, 45% volume)</div><div class="adesc">This is the exact frequency that drove your #1 most-watched post at 380K views / 48 days watch time. Playing it live while the copy describes nervous system dysregulation creates a live demonstration. Viewers feel it while reading about it. Fade in slowly from silence at 7 seconds.</div></div></div>
+          </div>
+          <div>
+            <div class="rblbl">Proven Color Palette &mdash; 741 Hz Top Reel</div>
+            <div class="acc">
+              <div class="palette-row">
+                <div class="chip"><div class="chip-dot" style="background:#050505"></div><span>Deep black &mdash; cards</span><span class="chip-hex">#050505</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#D4A017"></div><span>Rich gold &mdash; text accents</span><span class="chip-hex">#D4A017</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#F5C842"></div><span>Sunrise yellow &mdash; warmth</span><span class="chip-hex">#F5C842</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#ffffff"></div><span>White &mdash; body text</span><span class="chip-hex">#FFFFFF</span></div>
+              </div>
+              All-text-card reel. No b-roll. Pure black background with white text and gold accent on the final "Ancient Roots" reveal &mdash; exact palette from your #2 post.
+            </div>
+          </div>
+        </div>
+
+        <div class="rbf">
+          <div class="rblbl">On-Screen Text &mdash; CapCut Serif (Canela / Playfair Display)</div>
+          <div class="screen">
+            <div class="sln"><span class="stm">0&ndash;7 sec</span><span class="stx"><strong>Pure black card.</strong> "The reason you cannot fully rest &mdash; even when nothing is wrong &mdash; is not stress." Serif 72pt white center. Fade in 0.4s. SILENCE for the first 2 seconds &mdash; this pause creates tension before the first word is read.</span></div>
+            <div class="sln"><span class="stm">7&ndash;15 sec</span><span class="stx"><strong>Pure black card.</strong> "It is your nervous system running at a frequency it was never meant to sustain." Serif 68pt white center. Typewriter animation 0.7s build. 741 Hz audio fades in here, rising from 0% to 45% volume by 10 seconds.</span></div>
+            <div class="sln"><span class="stm">15&ndash;22 sec</span><span class="stx"><strong>Pure black card.</strong> "Sound at specific frequencies has been shown to shift the nervous system out of chronic activation and back into rest." Serif 58pt white lower two-thirds. Fade 0.5s. This is the mechanism reveal.</span></div>
+            <div class="sln"><span class="stm">22&ndash;27 sec</span><span class="stx"><strong>Pure black card.</strong> "This is what we built Ancient Roots around." Serif 72pt white center. INSTANT APPEAR &mdash; no animation. The restraint makes it land harder.</span></div>
+            <div class="sln"><span class="stm">27&ndash;30 sec</span><span class="stx"><strong>Pure black card.</strong> "Coming April 11th." 80pt serif white center. Below: "Ancient Roots." 64pt gold (#D4A017). Slow fade 0.8s. Audio fades out.</span></div>
+          </div>
+        </div>
+
+        <div class="rbf">
+          <div class="rblbl">Facebook Caption &mdash; Proven 5-Part Structure</div>
+          <div class="cap-guide">
+            <div class="cg-row"><div class="cg-num">1</div><div class="cg-label">Hook</div><div class="cg-text">Opens with the emotional problem &mdash; mirrors "Feeling heavy? It's time to release" structure</div></div>
+            <div class="cg-row"><div class="cg-num">2</div><div class="cg-label">Authority</div><div class="cg-text">Science/tradition backing &mdash; what the frequency does, specific and credible</div></div>
+            <div class="cg-row"><div class="cg-num">3</div><div class="cg-label">Benefit Stack</div><div class="cg-text">3 emoji-bulleted outcomes your audience wants</div></div>
+            <div class="cg-row"><div class="cg-num">4</div><div class="cg-label">CTA</div><div class="cg-text">Save / Tag someone / Share &mdash; drives action beyond the like</div></div>
+            <div class="cg-row"><div class="cg-num">5</div><div class="cg-label">Hashtags</div><div class="cg-text">5 niche hashtags from the proven top-reel list</div></div>
+          </div>
+          <div class="caption">&#10024; The reason you cannot fully rest &mdash; even when nothing is wrong &mdash; is not stress.
+
+It is your nervous system running at a frequency it was never meant to sustain long-term.
+
+741 Hz is known in sound healing traditions as the frequency of emotional detox and cellular clarity &mdash; used to clear chronic tension patterns the body holds long after the source of stress is gone.
+
+&#9889; Release what your body is still holding
+&#127775; Reset your nervous system at the frequency level
+&#128737; Return to a state your body recognizes as safe
+
+&#128071; Tag someone who cannot fully switch off even when life is fine. They need to hear this.
+
+&#127926; Ancient Roots launches April 11th. Follow this page and turn on notifications to be first in.</div>
+        </div>
+
+        <div class="rbg">
+          <div>
+            <div class="rblbl">Hashtags</div>
+            <div class="hrow"><span class="htag">#741Hz</span><span class="htag">#SoundHealing</span><span class="htag">#AncientRoots</span><span class="htag">#FrequencyHealing</span><span class="htag">#RaiseYourVibration</span></div>
+          </div>
+          <div>
+            <div class="rblbl">Pin This Comment After Posting</div>
+            <div class="acc">If you have been lying awake at 3 AM even when nothing is wrong &mdash; your nervous system is not broken. It is out of tune. Ancient Roots was built for exactly this. Launching April 11th. Follow this page to be first in.</div>
+          </div>
+        </div>
+
+        <!-- NANO BANANA COVER GUIDE R7 -->
+        <div class="nb-guide">
+          <div class="nb-head">&#127912; Nano Banana Cover Image &mdash; Reel 7 &mdash; The Exhaustion Mirror</div>
+          <div class="nb-grid">
+            <div class="nb-block">
+              <div class="nb-block-head">&#127760; Background and Palette</div>
+              <div class="nb-block-body">
+                Near-black cinematic portrait. Soft warm amber candlelight bokeh bleeding from the lower third upward. Deep violet atmospheric haze at top edges. Single delicate translucent white feather centered and fading into darkness. Ultra subtle gold light particles floating upward. Photorealistic mood lighting &mdash; intimate and still.
+                <div class="nb-palette">
+                  <div class="nb-chip"><div class="nb-dot" style="background:#050505"></div>Deep black</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#D4A017"></div>Amber gold</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#3D1A6E"></div>Deep violet</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#F5C842"></div>Warm light</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#ffffff"></div>White text</div>
+                </div>
+              </div>
+            </div>
+            <div class="nb-block">
+              <div class="nb-block-head">&#128424; Text and Layout &mdash; Add in CapCut after generation</div>
+              <div class="nb-text-layout">
+                <div class="nb-line"><div class="nb-line-pos">Upper center</div><div class="nb-line-copy"><strong>"The answer to why you cannot rest"</strong> &mdash; bold serif white 56pt with subtle amber glow</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Center</div><div class="nb-line-copy"><strong>"741 Hz"</strong> &mdash; massive neon gold #D4A017, 96pt with outer glow effect</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Below center</div><div class="nb-line-copy"><strong>"Emotional Detox Frequency"</strong> &mdash; italic serif white 40pt, 70% opacity</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Bottom</div><div class="nb-line-copy"><strong>"ANCIENT ROOTS &mdash; APRIL 11TH"</strong> &mdash; small caps white 28pt</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="nb-block-full">
+            <div class="nb-block-head">&#127775; Complete Nano Banana Prompt &mdash; copy and paste as-is</div>
+            <div class="nb-prompt">Dark cinematic portrait 9x16 vertical, near-black background #050505, soft warm amber candlelight bokeh bleeding from the lower third upward with gold particle light #D4A017, deep violet atmospheric haze #3D1A6E at the top edges fading inward, single delicate translucent white feather or ghostly leaf centered and dissolving gently into the darkness at midframe, ultra subtle warm light particles floating slowly upward, photorealistic cinematic mood lighting, intimate and still, no faces, no people, no text, sound healing wellness brand aesthetic, ancient roots media visual identity, leave upper third and center midframe clear of visual elements for text overlay, ultra high quality 8K</div>
+          </div>
+        </div>
+
+        <div class="prod-guide">
+          <div class="prod-head">&#127916; Full Production Guide &mdash; Reel 7 &mdash; The Exhaustion Mirror</div>
+          <div class="prod-body">
+            <div class="prod-grid">
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#127909; Format &mdash; All Text Cards, No Footage Required</div>
+                <div class="prod-block-body"><strong>This mirrors the exact visual approach of your 686K-view 741 Hz post.</strong> Pure black background cards built entirely in CapCut. The simplicity is intentional &mdash; the words carry full weight with nothing competing for attention. No b-roll, no app footage, no face. The app appears only in the final text card as a brand name. This is the formula that proved itself at scale.</div>
+              </div>
+              <div class="prod-block">
+                <div class="prod-block-head">&#127912; Color &mdash; Proven 741 Hz Palette</div>
+                <div class="prod-block-body">
+                  Background: <strong>#050505</strong> pure black throughout.<br>Body text: <strong>#FFFFFF</strong> white.<br>Final "Ancient Roots" line: <strong>#D4A017</strong> rich gold &mdash; the exact amber used in your 686K post.<br><br>No filter applied to text cards. Pure black and white for the entire reel until the gold brand reveal. This contrast is what drove the emotional impact in your top post.
+                </div>
+              </div>
+              <div class="prod-block">
+                <div class="prod-block-head">&#128424; Font and Text</div>
+                <div class="prod-block-body"><strong>Font:</strong> Canela or Playfair Display (serif) &mdash; search in CapCut Text fonts. <strong>Card 1:</strong> 72pt white center, fade 0.4s. <strong>Card 2:</strong> 68pt white typewriter 0.7s. <strong>Card 3:</strong> 58pt white lower two-thirds, fade 0.5s. <strong>Card 4:</strong> 72pt white INSTANT APPEAR &mdash; the only card with no animation. <strong>Card 5:</strong> 80pt white + 64pt gold (#D4A017). No drop shadows, no outlines anywhere.</div>
+              </div>
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#9881; CapCut Step-by-Step</div>
+                <div class="prod-block-body">
+                  <ul class="cs-list">
+                    <li><span class="cs-num">1</span>New Project. Add solid black (#050505) background layer set to 30 seconds total.</li>
+                    <li><span class="cs-num">2</span>Text Card 1 (0&ndash;7 sec): "The reason you cannot fully rest &mdash; even when nothing is wrong &mdash; is not stress." Serif 72pt white center. Fade in 0.4s. NO AUDIO for first 2 seconds &mdash; let silence build tension.</li>
+                    <li><span class="cs-num">3</span>Text Card 2 (7&ndash;15 sec): "It is your nervous system running at a frequency it was never meant to sustain." Serif 68pt white center. Typewriter animation at 0.7s build speed. At 7 seconds: begin 741 Hz audio fade-in from 0% volume, reaching 45% by 10 seconds.</li>
+                    <li><span class="cs-num">4</span>Text Card 3 (15&ndash;22 sec): "Sound at specific frequencies has been shown to shift the nervous system out of chronic activation and back into rest." Serif 58pt white lower two-thirds. Fade in 0.5s. This is the mechanism card &mdash; the pivot from problem to answer.</li>
+                    <li><span class="cs-num">5</span>Text Card 4 (22&ndash;27 sec): "This is what we built Ancient Roots around." Serif 72pt white dead center. INSTANT APPEAR at 22 seconds. Zero animation. The suddenness after the fades and typewriters creates rhythmic impact.</li>
+                    <li><span class="cs-num">6</span>Text Card 5 (27&ndash;30 sec): "Coming April 11th." 80pt serif white center. Below it: "Ancient Roots." 64pt gold (#D4A017). Slow fade in 0.8s. Audio begins fading out here, reaching 0% by 30 seconds.</li>
+                    <li><span class="cs-num">7</span>Audio: 741 Hz pure tone imported from Ancient Roots library. Volume keyframes: 0% at 0 sec, 0% at 7 sec, 45% at 10 sec, 45% at 27 sec, 0% at 30 sec.</li>
+                    <li><span class="cs-num">8</span>Export 1080x1920, 30fps, High quality. Post Tuesday March 31 at 7:00 AM ET exactly.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#128161; Why This Works &mdash; Data and Schwartz Aligned</div>
+                <div class="prod-block-body"><strong>The hook names the internal experience, not the symptom.</strong> "Cannot fully rest even when nothing is wrong" is more precise than "can't sleep" because it names the feeling of lying awake when life is objectively fine &mdash; chronic nervous system dysregulation. Your 741 Hz post opened with "Feeling heavy?" and earned 686K views. This reel applies that exact entry point to the nervous system frame. Schwartz called this "entering the conversation already happening in the prospect's mind." The 2-second silence at the opening amplifies that feeling before the first word appears &mdash; exactly as your top post let the frequency audio breathe before the copy hit.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== REEL 8 ===== -->
+    <div class="rc" id="rc8">
+      <div class="rch" onclick="tog('rc8')">
+        <div class="rnum rn-teal">8</div>
+        <div class="ri">
+          <div class="rtitle">The Mechanism Deepener &mdash; Your Brain Has a Natural Frequency</div>
+          <div class="tags"><span class="tag tg-teal">Wed Apr 1 &mdash; 7AM</span><span class="tag tg-gold">Solution Aware Bridge</span><span class="tag tg-x">30 sec</span></div>
+        </div>
+        <div class="rright"><div class="rtime">Wed Apr 1 &mdash; 7:00 AM ET</div><div class="rlen">30 sec</div><div class="rchev">&#9662;</div></div>
+      </div>
+      <div class="rcb">
+        <div class="stage-bar">
+          <div class="stage-ico">&#127919;</div>
+          <div><div class="stage-label">Schwartz Stage</div><div class="stage-name" style="color:var(--teal)">Problem Aware to Solution Aware &mdash; mirrors "this ancient frequency / science is catching up" 50K formula</div><div class="stage-desc">Introduce frequency as a measurable biological phenomenon &mdash; the specific answer to the problem named in Reel 7. Science authority hook confirmed at 50K+ views.</div></div>
+        </div>
+        <div class="hook-box">
+          <div class="hook-lbl">Your Hook &mdash; "Science Is Catching Up" Structure</div>
+          <div class="hook-text">"Your brain has a natural resting frequency. Chronic stress pulls it out of tune. This is not a metaphor &mdash; it is measurable."</div>
+        </div>
+        <div class="rbg">
+          <div>
+            <div class="rblbl">Recommended Audio</div>
+            <div class="audio-box"><div class="aico">&#127925;</div><div><div class="atrack">432 Hz Alpha blend &mdash; audible at 40% volume</div><div class="adesc">432 Hz binaural beat creates a live Alpha brainwave entrainment experience for headphone viewers while the copy describes exactly that state. The reel demonstrates its own mechanism in real time &mdash; the most powerful form of proof. Mirrors the "listen now and feel the shift" approach from your 528 Hz 82K post.</div></div></div>
+          </div>
+          <div>
+            <div class="rblbl">Proven Color Palette &mdash; 852 Hz / Science Posts</div>
+            <div class="acc">
+              <div class="palette-row">
+                <div class="chip"><div class="chip-dot" style="background:#050510"></div><span>Deep navy-black</span><span class="chip-hex">#050510</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#4169E1"></div><span>Electric blue &mdash; science</span><span class="chip-hex">#4169E1</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#00E5FF"></div><span>Cyan &mdash; Alpha label</span><span class="chip-hex">#00E5FF</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#ffffff"></div><span>White body text</span><span class="chip-hex">#FFFFFF</span></div>
+              </div>
+              Blue-to-cyan color language signals science authority. Matches your 50K+ "science is catching up" and 72K "cellular reset" posts.
+            </div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">On-Screen Text</div>
+          <div class="screen">
+            <div class="sln"><span class="stm">0&ndash;7 sec</span><span class="stx"><strong>Deep navy card.</strong> "Your brain has a natural resting frequency. Chronic stress pulls it out of tune." Serif 70pt white center. Typewriter 0.6s. No audio for 2 seconds.</span></div>
+            <div class="sln"><span class="stm">7&ndash;15 sec</span><span class="stx"><strong>Navy card + "Alpha" label.</strong> "This is not a metaphor. Neuroscientists call it Alpha &mdash; the state your brain enters when you feel genuinely safe." 58pt white lower two-thirds. In center frame: "Alpha" standalone in 96pt cyan (#00E5FF). Fade 0.5s. Audio fades in.</span></div>
+            <div class="sln"><span class="stm">15&ndash;23 sec</span><span class="stx"><strong>Navy card.</strong> "Sound at specific frequencies can guide your brain back into Alpha &mdash; even when your mind is still running." Serif 64pt white center. Fade 0.5s.</span></div>
+            <div class="sln"><span class="stm">23&ndash;27 sec</span><span class="stx"><strong>Navy card.</strong> "This is the science behind Ancient Roots." Serif 72pt white center. Instant appear.</span></div>
+            <div class="sln"><span class="stm">27&ndash;30 sec</span><span class="stx"><strong>CTA card.</strong> "Coming April 11th." 80pt white. "Ancient Roots." 64pt gold (#FFD700). Slow fade 0.8s.</span></div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">Facebook Caption &mdash; 5-Part Proven Structure</div>
+          <div class="caption">&#10024; Your brain has a natural resting frequency. Chronic stress pulls it out of tune.
+
+Neuroscientists call it Alpha &mdash; the brainwave state your mind enters when you are genuinely at ease, not performing calm but actually inhabiting it. Chronic stress suppresses Alpha and locks the brain in Beta &mdash; the frequency of vigilance, threat-scanning, and overdrive.
+
+Sound at specific frequencies can guide your brain back into Alpha even when your thoughts are still running. Ancient healing traditions knew this. Now neuroscience is confirming it.
+
+&#129504; Quiet the overdrive without forcing it
+&#127775; Return to a state your brain recognizes as safe
+&#9889; Reset at the frequency level &mdash; not just the thought level
+
+&#128190; Save this post for the next time someone tells you to "just relax."
+
+&#127926; Ancient Roots launches April 11th. Follow this page and turn on notifications.</div>
+        </div>
+        <div class="rbg">
+          <div><div class="rblbl">Hashtags</div><div class="hrow"><span class="htag">#432Hz</span><span class="htag">#SoundHealing</span><span class="htag">#FrequencyHealing</span><span class="htag">#AncientRoots</span><span class="htag">#BrainwaveEntrainment</span></div></div>
+        </div>
+        <!-- NANO BANANA COVER GUIDE R8 -->
+        <div class="nb-guide">
+          <div class="nb-head">&#127912; Nano Banana Cover Image &mdash; Reel 8 &mdash; The Mechanism Deepener</div>
+          <div class="nb-grid">
+            <div class="nb-block">
+              <div class="nb-block-head">&#127760; Background and Palette</div>
+              <div class="nb-block-body">
+                Deep navy-black background. Glowing brain neuron network dissolving into sacred geometry. Electric blue and cyan frequency wave patterns radiating from center. Dark cosmic scientific aesthetic &mdash; dramatic and credible. No clinical white. Pure dark atmosphere with luminous blue accents.
+                <div class="nb-palette">
+                  <div class="nb-chip"><div class="nb-dot" style="background:#050510"></div>Deep navy black</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#4169E1"></div>Electric blue</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#00E5FF"></div>Cyan glow</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#7B68EE"></div>Violet neural</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#ffffff"></div>White text</div>
+                </div>
+              </div>
+            </div>
+            <div class="nb-block">
+              <div class="nb-block-head">&#128424; Text and Layout &mdash; Add in CapCut after generation</div>
+              <div class="nb-text-layout">
+                <div class="nb-line"><div class="nb-line-pos">Upper center</div><div class="nb-line-copy"><strong>"Your Brain Has a Natural Frequency"</strong> &mdash; bold serif white 48pt</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Center large</div><div class="nb-line-copy"><strong>"ALPHA"</strong> &mdash; massive neon cyan #00E5FF, 110pt with electric glow</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Below center</div><div class="nb-line-copy"><strong>"432 Hz Brainwave Reset"</strong> &mdash; italic white 40pt, 75% opacity</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Bottom</div><div class="nb-line-copy"><strong>"ANCIENT ROOTS &mdash; APRIL 11TH"</strong> &mdash; small caps gold #FFD700 28pt</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="nb-block-full">
+            <div class="nb-block-head">&#127775; Complete Nano Banana Prompt &mdash; copy and paste as-is</div>
+            <div class="nb-prompt">Deep space neural network brain frequency art, vertical 9x16, near-black background #050510, glowing electric blue brain neuron connections #4169E1 dissolving into sacred geometry rings, cyan frequency wave patterns #00E5FF radiating outward from center with luminous glow, soft violet aurora #7B68EE at upper edges, dramatic dark cosmic scientific aesthetic, bioluminescent neuron light tendrils, no clinical white, pure dark atmosphere with electric blue and cyan accent light, no faces, no people, no text, leave upper third and vertical center clear for text overlay, sound healing neuroscience wellness aesthetic, ultra high quality 8K</div>
+          </div>
+        </div>
+
+        <div class="prod-guide">
+          <div class="prod-head">&#127916; Full Production Guide &mdash; Reel 8</div>
+          <div class="prod-body">
+            <div class="prod-grid">
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#127909; Background &mdash; Brain Neuron Footage or Deep Navy Cards</div>
+                <div class="prod-block-body"><strong>Option A (strongest):</strong> Brain neuron footage from Pexels &mdash; search "brain neurons glowing" or "neural network dark." Apply heavy vignette and dark treatment so it becomes atmospheric, not clinical. This mirrors the visual language of your 72K "cellular reset" and 50K "science is catching up" posts. <strong>Option B:</strong> All text cards on deep navy (#050510) with a very slow 1% Ken Burns zoom over 30 seconds. The barely-perceptible movement adds life without distraction.</div>
+              </div>
+              <div class="prod-block">
+                <div class="prod-block-head">&#127912; Color Treatment &mdash; Science Blue Formula</div>
+                <div class="prod-block-body">If using footage: <strong>Filters &mdash; Aesthetic &mdash; Neon at 15%.</strong> Brightness -20, Contrast +30, Saturation -10, Vignette +40. Becomes dark and impressionistic. <strong>"Alpha" standalone:</strong> 96pt cyan (#00E5FF) with subtle glow &mdash; CapCut Text Effects &mdash; Glow in cyan. <strong>"Beta" standalone:</strong> 72pt white at 55% opacity &mdash; subdued to signal the undesirable state. CTA gold: #FFD700.</div>
+              </div>
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#9881; CapCut Step-by-Step</div>
+                <div class="prod-block-body">
+                  <ul class="cs-list">
+                    <li><span class="cs-num">1</span>Import brain neuron footage or set deep navy (#050510) background. 30 seconds total.</li>
+                    <li><span class="cs-num">2</span>If footage: Neon filter 15%, Brightness -20, Contrast +30, Vignette +40.</li>
+                    <li><span class="cs-num">3</span>Text Card 1 (0&ndash;7 sec): hook in serif 70pt white center. Typewriter 0.6s. No audio first 2 seconds.</li>
+                    <li><span class="cs-num">4</span>Text Card 2 (7&ndash;15 sec): science sentence 58pt white lower two-thirds + "Alpha" 96pt cyan (#00E5FF) center frame simultaneously. Audio fades in at 7 sec, rises to 40% by 10 sec.</li>
+                    <li><span class="cs-num">5</span>Text Card 3 (15&ndash;23 sec): mechanism sentence 64pt white center. Fade 0.5s.</li>
+                    <li><span class="cs-num">6</span>Text Card 4 (23&ndash;27 sec): "This is the science behind Ancient Roots." 72pt white instant appear.</li>
+                    <li><span class="cs-num">7</span>Final card (27&ndash;30 sec): "Coming April 11th." + "Ancient Roots." #FFD700. Audio fade out. Export 1080x1920, 30fps. Post Wednesday April 1 at 7:00 AM ET.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== REEL 9 ===== -->
+    <div class="rc" id="rc9">
+      <div class="rch" onclick="tog('rc9')">
+        <div class="rnum rn-gold">9</div>
+        <div class="ri">
+          <div class="rtitle">The Origin Story &mdash; 30 Years Led Me Here</div>
+          <div class="tags"><span class="tag tg-gold">Thu Apr 2 &mdash; 7AM</span><span class="tag tg-vio">Product Aware Bridge</span><span class="tag tg-teal">Your Story = Mechanism</span><span class="tag tg-x">30 sec</span></div>
+        </div>
+        <div class="rright"><div class="rtime">Thu Apr 2 &mdash; 7:00 AM ET</div><div class="rlen">30 sec</div><div class="rchev">&#9662;</div></div>
+      </div>
+      <div class="rcb">
+        <div class="stage-bar">
+          <div class="stage-ico">&#127919;</div>
+          <div><div class="stage-label">Schwartz Stage</div><div class="stage-name" style="color:var(--gold)">Solution Aware to Product Aware &mdash; You are the mechanism no competitor can copy</div><div class="stage-desc">Your personal story bridges the gap between believing in frequency and trusting Ancient Roots specifically. 30 years of human experience is your differentiator. "Composed by humans. No AI. All soul." is a Schwartz mechanism statement.</div></div>
+        </div>
+        <div class="hook-box">
+          <div class="hook-lbl">Your Hook &mdash; Authority Origin</div>
+          <div class="hook-text">"I spent 30 years composing music. Then I discovered what certain frequencies do to the nervous system &mdash; and I could not unhear it."</div>
+        </div>
+        <div class="rbg">
+          <div>
+            <div class="rblbl">Recommended Audio</div>
+            <div class="audio-box"><div class="aico">&#127925;</div><div><div class="atrack">528 Hz &mdash; Solar Ascension (Aurum Gate) at 20% volume bed</div><div class="adesc">528 Hz is your most scientifically validated Solfeggio tone (Akimoto et al. cortisol/oxytocin study). Using it under the origin story ties the emotion of your personal narrative to the science of the product. Keep low &mdash; present but not dominant. The copy carries the emotional weight here.</div></div></div>
+          </div>
+          <div>
+            <div class="rblbl">Proven Color Palette &mdash; 888 Hz / Mercury Post (73K)</div>
+            <div class="acc">
+              <div class="palette-row">
+                <div class="chip"><div class="chip-dot" style="background:#0B1026"></div><span>Cosmic deep blue</span><span class="chip-hex">#0B1026</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#D4943A"></div><span>Rich golden amber</span><span class="chip-hex">#D4943A</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#F0C75E"></div><span>Golden light</span><span class="chip-hex">#F0C75E</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#ffffff"></div><span>White text</span><span class="chip-hex">#FFFFFF</span></div>
+              </div>
+              Warm amber palette signals human warmth and credibility. Matches the emotional register of your Mercury post ("the only frequency I want in my ears") &mdash; personal, intimate, real.
+            </div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">On-Screen Text Script</div>
+          <div class="screen">
+            <div class="sln"><span class="stm">0&ndash;7 sec</span><span class="stx"><strong>Deep blue card.</strong> "I spent 30 years composing music. Then I discovered what certain frequencies do to the nervous system &mdash; and I could not unhear it." Serif 64pt white center. Typewriter 0.8s.</span></div>
+            <div class="sln"><span class="stm">7&ndash;15 sec</span><span class="stx"><strong>Deep blue card.</strong> "I started researching why specific Hz values kept appearing in ancient healing traditions, modern neuroscience, and the most profound musical experiences I had ever witnessed." 54pt white lower two-thirds. Fade 0.5s.</span></div>
+            <div class="sln"><span class="stm">15&ndash;22 sec</span><span class="stx"><strong>Deep blue card.</strong> "Ancient Roots is what I built when I realized this knowledge deserved to be inside something you could hold in your hand and use every day." Serif 58pt white center. Fade 0.5s.</span></div>
+            <div class="sln"><span class="stm">22&ndash;27 sec</span><span class="stx"><strong>Pure black card.</strong> "Composed by humans. No AI. All soul." Serif 80pt white center. INSTANT APPEAR. This is the brand mechanism line &mdash; the most important text in the reel. No animation. Full stop.</span></div>
+            <div class="sln"><span class="stm">27&ndash;30 sec</span><span class="stx"><strong>CTA card.</strong> "Coming April 11th." 80pt white. "Ancient Roots." 64pt gold (#D4943A). Slow fade 0.8s.</span></div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">Facebook Caption</div>
+          <div class="caption">&#10024; I spent 30 years composing music.
+
+Grammy nominations. HBO. MTV. Sony Music. Universal. 150 million streams.
+
+And somewhere inside all of that, I started noticing something. Certain frequencies did something to the people in the room. Not just emotionally &mdash; physically. Their shoulders dropped. Their breathing slowed. Their faces changed.
+
+I started researching why. Ancient healing temples resonating at specific Hz values. Peer-reviewed neuroscience confirming what indigenous traditions knew for centuries. The patterns were everywhere.
+
+&#127807; Ancient Roots is what I built when I realized this knowledge deserved to be accessible to everyone.
+
+Composed by humans. No AI. All soul.
+
+&#128071; Save this if you believe sound can change how you feel. We built this for you.
+
+&#127926; Ancient Roots launches April 11th. Follow this page and turn on notifications to be first in.</div>
+        </div>
+        <div class="rbg">
+          <div><div class="rblbl">Hashtags</div><div class="hrow"><span class="htag">#528Hz</span><span class="htag">#SoundHealing</span><span class="htag">#FrequencyHealing</span><span class="htag">#AncientRoots</span><span class="htag">#EnergyHealing</span></div></div>
+        </div>
+        <!-- NANO BANANA COVER GUIDE R9 -->
+        <div class="nb-guide">
+          <div class="nb-head">&#127912; Nano Banana Cover Image &mdash; Reel 9 &mdash; The Origin Story</div>
+          <div class="nb-grid">
+            <div class="nb-block">
+              <div class="nb-block-head">&#127760; Background and Palette</div>
+              <div class="nb-block-body">
+                Cosmic deep blue to near-black. Rich golden amber god rays emerging from center. Ancient roots tree of life symbol glowing softly at midframe. Warm human energy &mdash; intimate not dramatic. Matches the Mercury Direct 888 Hz post palette (73K views) which used exactly this warm amber-over-deep-blue formula.
+                <div class="nb-palette">
+                  <div class="nb-chip"><div class="nb-dot" style="background:#0B1026"></div>Cosmic deep blue</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#D4943A"></div>Rich amber gold</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#F0C75E"></div>Golden light rays</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#3D1A6E"></div>Deep violet edge</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#ffffff"></div>White text</div>
+                </div>
+              </div>
+            </div>
+            <div class="nb-block">
+              <div class="nb-block-head">&#128424; Text and Layout &mdash; Add in CapCut after generation</div>
+              <div class="nb-text-layout">
+                <div class="nb-line"><div class="nb-line-pos">Upper center</div><div class="nb-line-copy"><strong>"30 Years Led Me Here"</strong> &mdash; bold serif white 52pt, subtle amber glow</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Center</div><div class="nb-line-copy"><strong>"528 Hz"</strong> &mdash; large neon amber gold #D4943A, 88pt with warm glow</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Below center</div><div class="nb-line-copy"><strong>"Composed by humans. No AI. All soul."</strong> &mdash; italic serif white 36pt</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Bottom</div><div class="nb-line-copy"><strong>"ANCIENT ROOTS &mdash; APRIL 11TH"</strong> &mdash; small caps white 26pt</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="nb-block-full">
+            <div class="nb-block-head">&#127775; Complete Nano Banana Prompt &mdash; copy and paste as-is</div>
+            <div class="nb-prompt">Cinematic cosmic portrait 9x16 vertical, deep cosmic blue to near-black background #0B1026, rich golden amber god rays #D4943A emerging from a warm central light source, ancient roots tree of life symbol glowing softly in warm gold #F0C75E at midframe center, subtle deep violet aurora #3D1A6E bleeding from the upper edges, warm light particles drifting upward, intimate human warmth energy, photorealistic divine lighting with cinematic depth, no faces, no people, no text, Grammy award music producer sound healing spiritual wellness aesthetic, leave clear vertical center and upper frame for text overlay, ultra high quality 8K</div>
+          </div>
+        </div>
+
+        <div class="prod-guide">
+          <div class="prod-head">&#127916; Full Production Guide &mdash; Reel 9</div>
+          <div class="prod-body">
+            <div class="prod-grid">
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#127909; Format &mdash; Talking Head or Text Cards</div>
+                <div class="prod-block-body"><strong>Talking Head (preferred for this reel):</strong> Film yourself on iPhone in portrait mode. One practical light source to your left or right &mdash; a lamp with warm bulb at face height. Deep blue or dark wall background. Clothing: solid dark, no logos. The human face creates trust that text alone cannot replicate, and this reel is specifically about human authorship. <strong>Text Card Alternative:</strong> Deep blue (#0B1026) background with very slow Ken Burns zoom 100% to 101.5% over 30 seconds. The barely perceptible movement adds life.</div>
+              </div>
+              <div class="prod-block">
+                <div class="prod-block-head">&#127912; Color &mdash; Warm Amber Formula</div>
+                <div class="prod-block-body">Background throughout: #0B1026 cosmic deep blue. <strong>Filters &mdash; Film &mdash; Fade at 20%</strong> if talking head. Warmth +10. This warm, intimate treatment matches your Mercury "only frequency I want in my ears" post at 73K views. <strong>"Composed by humans. No AI. All soul."</strong> gets its own pure black card at 22 seconds &mdash; the palette shift to pure black is deliberate: it signals a declaration, not a continuation.</div>
+              </div>
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#9881; CapCut Step-by-Step</div>
+                <div class="prod-block-body">
+                  <ul class="cs-list">
+                    <li><span class="cs-num">1</span>If talking head: import iPhone recording trimmed to 22 seconds. At 22 seconds, cut to pure black card for the brand line.</li>
+                    <li><span class="cs-num">2</span>If text cards: deep blue (#0B1026) background, Ken Burns 100% to 101.5% over 30 seconds.</li>
+                    <li><span class="cs-num">3</span>Cards 1&ndash;3 (0&ndash;22 sec): serif 64/54/58pt white, typewriter or fade animations. Audio: 528 Hz at 20% throughout cards 1&ndash;3.</li>
+                    <li><span class="cs-num">4</span>Card 4 (22&ndash;27 sec): switch to PURE BLACK background. "Composed by humans. No AI. All soul." 80pt serif white center. INSTANT APPEAR. The background shift from blue to black combined with the instant appear is the visual and rhythmic peak of the reel.</li>
+                    <li><span class="cs-num">5</span>Final card (27&ndash;30 sec): "Coming April 11th." + "Ancient Roots." #D4943A amber gold. Slow fade 0.8s. Audio fade out.</li>
+                    <li><span class="cs-num">6</span>Export 1080x1920, 30fps. Post Thursday April 2 at 7:00 AM ET.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== REEL 10 ===== -->
+    <div class="rc" id="rc10">
+      <div class="rch" onclick="tog('rc10')">
+        <div class="rnum rn-vio">10</div>
+        <div class="ri">
+          <div class="rtitle">The Quiz Differentiator &mdash; Most Apps Leave You Guessing</div>
+          <div class="tags"><span class="tag tg-vio">Fri Apr 3 &mdash; 7AM</span><span class="tag tg-teal">Product Aware</span><span class="tag tg-x">App Screen Recording</span><span class="tag tg-x">30 sec</span></div>
+        </div>
+        <div class="rright"><div class="rtime">Fri Apr 3 &mdash; 7:00 AM ET</div><div class="rlen">30 sec</div><div class="rchev">&#9662;</div></div>
+      </div>
+      <div class="rcb">
+        <div class="stage-bar">
+          <div class="stage-ico">&#127919;</div>
+          <div><div class="stage-label">Schwartz Stage</div><div class="stage-name" style="color:var(--vio)">Product Aware &mdash; app introduced as solution to a named frustration, not a feature</div><div class="stage-desc">Name the frustration every competitor creates (leaving you guessing) and show how Ancient Roots solves it. The app appears only after the problem has been framed.</div></div>
+        </div>
+        <div class="hook-box">
+          <div class="hook-lbl">Your Hook</div>
+          <div class="hook-text">"Most wellness apps give you a library and leave you guessing. Ancient Roots asks the right questions first."</div>
+        </div>
+        <div class="rbg">
+          <div>
+            <div class="rblbl">Recommended Audio</div>
+            <div class="audio-box"><div class="aico">&#127925;</div><div><div class="atrack">396 Hz &mdash; Terra Dream (Sleep and Grounding) at 18% volume</div><div class="adesc">396 Hz is the Liberation Frequency &mdash; grounding and calming. Playing it under the quiz reveal creates subconscious alignment between answering the quiz and the feeling of relief. The "liberation" quality of 396 Hz reinforces the reel's message that Ancient Roots frees you from guessing. Keep at 18% &mdash; just present enough to be felt.</div></div></div>
+          </div>
+          <div>
+            <div class="rblbl">Proven Color Palette &mdash; App Section</div>
+            <div class="acc">
+              <div class="palette-row">
+                <div class="chip"><div class="chip-dot" style="background:#050505"></div><span>Pure black &mdash; hook cards</span><span class="chip-hex">#050505</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#38f0d8"></div><span>App teal UI</span><span class="chip-hex">#38F0D8</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#FFD700"></div><span>Gold CTA card</span><span class="chip-hex">#FFD700</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#ffffff"></div><span>White text</span><span class="chip-hex">#FFFFFF</span></div>
+              </div>
+              Two-part visual contrast: pure black text cards (problem framing) then the app's native teal UI (solution reveal). The contrast IS the message &mdash; darkness to light, guessing to knowing.
+            </div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">On-Screen Text + App Recording</div>
+          <div class="screen">
+            <div class="sln"><span class="stm">0&ndash;6 sec</span><span class="stx"><strong>Black hook card.</strong> "Most wellness apps give you a library and leave you guessing which frequency you actually need." Serif 66pt white center. Typewriter 0.7s. No audio.</span></div>
+            <div class="sln"><span class="stm">6&ndash;12 sec</span><span class="stx"><strong>Black card.</strong> "Ancient Roots asks the right questions first." Serif 80pt white center. INSTANT APPEAR &mdash; this is the biggest text in the reel. Audio fades in here.</span></div>
+            <div class="sln"><span class="stm">12&ndash;24 sec</span><span class="stx"><strong>App screen recording.</strong> Resonance Portal splash (3s) &mdash; quiz questions (5s) &mdash; loading tree (4s) &mdash; Night Guardian result (4s). NO text overlay for the first 8 seconds of app recording. At 20 sec add lower third: "Your frequency profile. Built for you specifically." 54pt white 80% opacity.</span></div>
+            <div class="sln"><span class="stm">24&ndash;27 sec</span><span class="stx"><strong>Night Guardian result held.</strong> Result screen fills frame. Let viewer read for 3 full seconds. No text overlay.</span></div>
+            <div class="sln"><span class="stm">27&ndash;30 sec</span><span class="stx"><strong>CTA card.</strong> "What is yours? Coming April 11th." 72pt white. "Ancient Roots." 64pt gold (#FFD700). Fade 0.8s.</span></div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">Facebook Caption</div>
+          <div class="caption">&#10024; Most wellness apps give you a library and leave you guessing.
+
+Do you need 528 Hz or 432 Hz? Delta waves or Alpha? Sleep frequencies or focus frequencies? Without knowing what your nervous system actually needs right now, most people guess, get overwhelmed, and quietly stop using the app within a week.
+
+Ancient Roots does something different. It asks what is actually happening in your life. Your sleep. Your stress. How it shows up in your body. What a real shift would feel like in 30 days.
+
+Then it builds your entire frequency journey around your answers.
+
+&#127775; 15 unique frequency profiles &mdash; not one size fits all
+&#129302; A personalized 28-day protocol built around your specific archetype
+&#9889; The guesswork is gone &mdash; your frequencies are chosen for you
+
+&#128071; Drop your guessed archetype in the comments. Find out how close you are on April 11th.
+
+&#127926; Ancient Roots launches April 11th. Follow this page and turn on notifications.</div>
+        </div>
+        <div class="rbg">
+          <div><div class="rblbl">Hashtags</div><div class="hrow"><span class="htag">#AncientRoots</span><span class="htag">#SoundHealing</span><span class="htag">#FrequencyHealing</span><span class="htag">#SpiritualAlignment</span><span class="htag">#EnergyHealing</span></div></div>
+        </div>
+        <!-- NANO BANANA COVER GUIDE R10 -->
+        <div class="nb-guide">
+          <div class="nb-head">&#127912; Nano Banana Cover Image &mdash; Reel 10 &mdash; The Quiz Differentiator</div>
+          <div class="nb-grid">
+            <div class="nb-block">
+              <div class="nb-block-head">&#127760; Background and Palette</div>
+              <div class="nb-block-body">
+                Deep cosmic violet and black. Sacred geometry quiz-like radial pattern &mdash; 15 glowing orbs in circular formation representing the 15 archetypes. Teal and gold energy rings expanding outward. This cover signals personalization and mystery &mdash; the viewer wants to know which orb is theirs. Matches your 852 Hz Third Eye post palette (188K views).
+                <div class="nb-palette">
+                  <div class="nb-chip"><div class="nb-dot" style="background:#0a0614"></div>Violet black</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#8B2FC9"></div>Neon violet</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#00E5A0"></div>Teal green</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#FFD700"></div>Gold</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#ffffff"></div>White text</div>
+                </div>
+              </div>
+            </div>
+            <div class="nb-block">
+              <div class="nb-block-head">&#128424; Text and Layout &mdash; Add in CapCut after generation</div>
+              <div class="nb-text-layout">
+                <div class="nb-line"><div class="nb-line-pos">Upper center</div><div class="nb-line-copy"><strong>"Which One Are You?"</strong> &mdash; bold serif neon violet #8B2FC9, 58pt with glow</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Center large</div><div class="nb-line-copy"><strong>"15 FREQUENCY PROFILES"</strong> &mdash; massive neon gold #FFD700, 72pt with outer glow</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Below center</div><div class="nb-line-copy"><strong>"The quiz takes 60 seconds"</strong> &mdash; italic white 38pt, 75% opacity</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Bottom</div><div class="nb-line-copy"><strong>"ANCIENT ROOTS &mdash; APRIL 11TH"</strong> &mdash; small caps teal #00E5A0, 26pt</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="nb-block-full">
+            <div class="nb-block-head">&#127775; Complete Nano Banana Prompt &mdash; copy and paste as-is</div>
+            <div class="nb-prompt">Cosmic violet sacred geometry art 9x16 vertical, deep violet to near-black background #0a0614, 15 glowing orbs arranged in a sacred circular mandala pattern each in different colors representing unique archetypes, teal energy rings #00E5A0 expanding outward from center, gold sacred geometry lines #FFD700 connecting the orbs in a luminous network, neon violet aurora #8B2FC9 at upper and lower edges, one orb at center slightly larger and brighter in brilliant white suggesting the chosen one, cosmic personalization energy, mystical quiz portal aesthetic, no faces, no people, no text, leave clear center frame and upper third for text overlay, ultra vibrant neon sacred geometry spiritual wellness art, ultra high quality 8K</div>
+          </div>
+        </div>
+
+        <div class="prod-guide">
+          <div class="prod-head">&#127916; Full Production Guide &mdash; Reel 10</div>
+          <div class="prod-body">
+            <div class="prod-grid">
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#127909; Two-Part Structure &mdash; Black Cards into App Recording</div>
+                <div class="prod-block-body"><strong>Cards 1 and 2 (0&ndash;12 sec) are pure black text cards.</strong> The viewer is hooked before the app appears. This is Schwartz: earn the right to show the product by establishing the need first. The app recording begins at 12 seconds. IP Protection: show quiz question text but do not show answers selected &mdash; the logic stays behind the paywall.</div>
+              </div>
+              <div class="prod-block">
+                <div class="prod-block-head">&#127912; Color &mdash; Black to App Teal Contrast</div>
+                <div class="prod-block-body">Hook cards: pure black (#050505), white text, no filter. App recording: <strong>Filters &mdash; Film &mdash; Fade at 25%.</strong> Brightness -10, Contrast +15. Makes the app feel cinematic rather than screengrabbed. The visual shift from stark black cards to the atmospheric app UI creates natural emphasis on the product reveal. CTA gold: #FFD700.</div>
+              </div>
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#9881; CapCut Step-by-Step</div>
+                <div class="prod-block-body">
+                  <ul class="cs-list">
+                    <li><span class="cs-num">1</span>Enable iPhone screen recorder. Record: Resonance Portal splash (3s), quiz question 1 (3s), quiz question 2 (2s), loading tree (6s), Night Guardian result (10s). Total 24 seconds of recording.</li>
+                    <li><span class="cs-num">2</span>New CapCut project. Pure black background first 12 seconds.</li>
+                    <li><span class="cs-num">3</span>Text Card 1 (0&ndash;6 sec): hook 66pt white typewriter 0.7s. No audio.</li>
+                    <li><span class="cs-num">4</span>Text Card 2 (6&ndash;12 sec): "Ancient Roots asks the right questions first." 80pt white INSTANT APPEAR at 6 seconds. Audio fades in at 7 seconds, rises to 18% by 10 seconds.</li>
+                    <li><span class="cs-num">5</span>App recording begins at 12 seconds. Fade filter 25%, Brightness -10, Contrast +15. No text overlay from 12&ndash;20 seconds &mdash; let the quiz and loading tree be seen clearly.</li>
+                    <li><span class="cs-num">6</span>At 20 seconds: lower third "Your frequency profile. Built for you specifically." 54pt white 80% opacity. Fade 0.5s.</li>
+                    <li><span class="cs-num">7</span>Night Guardian result holds at 24&ndash;27 seconds with no text overlay.</li>
+                    <li><span class="cs-num">8</span>Final CTA card (27&ndash;30 sec): "What is yours? Coming April 11th." + "Ancient Roots." #FFD700 gold. Audio fade out.</li>
+                    <li><span class="cs-num">9</span>Export 1080x1920, 30fps. Post Friday April 3 at 7:00 AM ET.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /rlist -->
+</div>
+
+<!-- ============================================================
+     REELS 11-15
+============================================================ -->
+<div class="panel" id="p-r1115">
+  <div class="sh-lbl">Launch Week &mdash; Apr 7 to Apr 11</div>
+  <div class="sh-title">Reels 11 to 15 &mdash; The Closing Arc</div>
+  <div class="sh-desc">By this point your audience has been walked from Problem Aware to Product Aware over 10 reels. They believe in frequency, understand Ancient Roots is different, and know who built it. These five reels move into Most Aware territory using your proven copy structure throughout &mdash; social proof, urgency through loss of desired outcome, and the launch. Every caption follows the 5-part proven formula.</div>
+  <div class="rlist">
+
+    <!-- REEL 11 -->
+    <div class="rc" id="rc11">
+      <div class="rch" onclick="tog('rc11')">
+        <div class="rnum rn-amber">11</div>
+        <div class="ri">
+          <div class="rtitle">The Social Proof &mdash; Deborah's Testimonial</div>
+          <div class="tags"><span class="tag tg-amber">Mon Apr 7 &mdash; 7AM</span><span class="tag tg-gold">Highest Conversion</span><span class="tag tg-teal">Most Aware Bridge</span><span class="tag tg-x">30 sec</span></div>
+        </div>
+        <div class="rright"><div class="rtime">Mon Apr 7 &mdash; 7:00 AM ET</div><div class="rlen">30 sec</div><div class="rchev">&#9662;</div></div>
+      </div>
+      <div class="rcb">
+        <div class="stage-bar">
+          <div class="stage-ico">&#127919;</div>
+          <div><div class="stage-label">Schwartz Stage</div><div class="stage-name" style="color:var(--amber)">Product Aware to Most Aware &mdash; social proof closes the gap between belief and action</div><div class="stage-desc">The testimonial lands here because the audience already believes. Deborah confirms what they suspect is true about themselves. This mirrors the "tag someone who needs this" CTA structure from your top reels.</div></div>
+        </div>
+        <div class="hook-box">
+          <div class="hook-lbl">Opening Frame &mdash; Before Testimonial Appears</div>
+          <div class="hook-text">"She did not find Ancient Roots looking for a meditation app. She found it looking for sleep."</div>
+        </div>
+        <div class="rbg">
+          <div>
+            <div class="rblbl">Recommended Audio</div>
+            <div class="audio-box"><div class="aico">&#127925;</div><div><div class="atrack">639 Hz &mdash; Heart Connection (Temple Codes) at 30% volume</div><div class="adesc">639 Hz Heart Chakra. Deborah's testimonial is fundamentally about feeling cared for and balanced. The frequency reinforces the emotional message subconsciously and introduces a separate collection to the audience simultaneously &mdash; mirroring how your 52K Throat Chakra post used the frequency name as the hook.</div></div></div>
+          </div>
+          <div>
+            <div class="rblbl">Proven Palette &mdash; 528 Hz Love Frequency (82K)</div>
+            <div class="acc">
+              <div class="palette-row">
+                <div class="chip"><div class="chip-dot" style="background:#0F0825"></div><span>Deep midnight purple</span><span class="chip-hex">#0F0825</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#FFD700"></div><span>Gold quote mark</span><span class="chip-hex">#FFD700</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#4ade80"></div><span>Green attribution</span><span class="chip-hex">#4ADE80</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#ffffff"></div><span>White quote text</span><span class="chip-hex">#FFFFFF</span></div>
+              </div>
+              Deep purple/midnight background signals the spiritual-emotional register of the testimonial. Gold quote mark pulls from the #1 reel palette. Green attribution signals authenticity and human warmth.
+            </div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">Facebook Caption &mdash; 5-Part Structure</div>
+          <div class="caption">&#10024; She did not find Ancient Roots looking for a meditation app. She found it looking for sleep.
+
+"Perimenopause made my sleep unpredictable. These sessions have become part of how I take care of myself now. I fall asleep faster and wake up feeling more balanced." &mdash; Deborah, Lunar Drift, Sleep and Grounding Collection
+
+Deborah is a Night Guardian. Her primary frequency prescription: Delta waves &mdash; the brainwave state the body needs for deep, restorative sleep. One of 15 personalized profiles inside Ancient Roots.
+
+&#127769; Fall asleep faster without forcing it
+&#127775; Wake up feeling restored, not just rested
+&#9917; Take care of yourself at the frequency level
+
+&#128071; Tag someone whose sleep has not been right lately. They need to hear this.
+
+&#127926; Ancient Roots launches April 11th. Follow this page and turn on notifications to be first in.</div>
+        </div>
+        <div class="rbg">
+          <div><div class="rblbl">Hashtags</div><div class="hrow"><span class="htag">#639Hz</span><span class="htag">#SoundHealing</span><span class="htag">#AncientRoots</span><span class="htag">#SleepBetter</span><span class="htag">#FrequencyHealing</span></div></div>
+        </div>
+        <!-- NANO BANANA COVER GUIDE R11 -->
+        <div class="nb-guide">
+          <div class="nb-head">&#127912; Nano Banana Cover Image &mdash; Reel 11 &mdash; Social Proof / Deborah</div>
+          <div class="nb-grid">
+            <div class="nb-block">
+              <div class="nb-block-head">&#127760; Background and Palette</div>
+              <div class="nb-block-body">
+                Deep midnight purple to near-black. Soft candlelight warmth in the lower third. Impressionistic &mdash; like a memory rather than a photograph. Single delicate botanical element (leaf, flower, or feather) dissolving at lower center. This is your most intimate cover in the series &mdash; it should feel like a message passed between women who understand each other. Pulls from the 528 Hz Love Frequency post palette (82K views).
+                <div class="nb-palette">
+                  <div class="nb-chip"><div class="nb-dot" style="background:#0F0825"></div>Midnight purple</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#FFD700"></div>Gold quote mark</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#E8A020"></div>Warm amber</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#4ade80"></div>Soft green attr</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#ffffff"></div>White text</div>
+                </div>
+              </div>
+            </div>
+            <div class="nb-block">
+              <div class="nb-block-head">&#128424; Text and Layout &mdash; Add in CapCut after generation</div>
+              <div class="nb-text-layout">
+                <div class="nb-line"><div class="nb-line-pos">Upper center</div><div class="nb-line-copy"><strong>Large gold quote mark " </strong> &mdash; 120pt serif #FFD700 with warm glow</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Center</div><div class="nb-line-copy"><strong>"I fall asleep faster and wake up feeling more balanced."</strong> &mdash; italic serif white 42pt centered, line spacing 1.5</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Below quote</div><div class="nb-line-copy"><strong>"&mdash; Deborah, Night Guardian"</strong> &mdash; soft green #4ade80, 34pt right-aligned</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Bottom</div><div class="nb-line-copy"><strong>"ANCIENT ROOTS &mdash; APRIL 11TH"</strong> &mdash; small caps white 26pt</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="nb-block-full">
+            <div class="nb-block-head">&#127775; Complete Nano Banana Prompt &mdash; copy and paste as-is</div>
+            <div class="nb-prompt">Intimate cinematic portrait 9x16 vertical, deep midnight purple to near-black background #0F0825, soft warm amber candlelight bokeh #E8A020 bleeding gently from the lower third upward, single delicate translucent botanical element &mdash; a white flower petal or soft leaf &mdash; dissolving at lower center into the darkness, ultra subtle gold light particles drifting upward very slowly, impressionistic like a memory not a photograph, photorealistic mood lighting, deeply personal and quiet, no faces, no people, no text, intimate sound healing women's wellness aesthetic, ancient roots media brand, leave clear center and upper two-thirds for text overlay, ultra high quality 8K</div>
+          </div>
+        </div>
+
+        <div class="prod-guide">
+          <div class="prod-head">&#127916; Full Production Guide &mdash; Reel 11</div>
+          <div class="prod-body">
+            <div class="prod-grid">
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#127909; Background &mdash; Three Visual Sections</div>
+                <div class="prod-block-body"><strong>Card 1 (0&ndash;6 sec):</strong> Pure black. <strong>Cards 2&ndash;3 (6&ndash;27 sec):</strong> Woman with tea at window at dawn &mdash; Pexels: "woman hands tea morning." Apply blur 70% &mdash; impressionistic, not literal. The blurred warmth makes this feel like a real moment rather than a polished ad. <strong>Card 4 (27&ndash;30 sec):</strong> Pure black CTA. Deep midnight purple (#0F0825) can replace pure black for cards 2&ndash;3 if you want visual distinction from Reel 7.</div>
+              </div>
+              <div class="prod-block">
+                <div class="prod-block-head">&#127912; Color &mdash; Midnight Purple + Gold Quote Mark</div>
+                <div class="prod-block-body">Atmospheric section: <strong>Filters &mdash; Aesthetic &mdash; Soft at 55%.</strong> Saturation -25, Vignette +40. Heavy desaturation makes it feel unfiltered and real &mdash; not a polished ad. <strong>Gold quote mark:</strong> 120pt serif #FFD700 &mdash; pulls from your #1 reel (716K) palette directly. <strong>"&mdash; Deborah":</strong> 48pt soft green (#4ADE80) &mdash; signals authenticity.</div>
+              </div>
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#9881; CapCut Step-by-Step</div>
+                <div class="prod-block-body">
+                  <ul class="cs-list">
+                    <li><span class="cs-num">1</span>Import woman-with-tea footage. Blur 70%, Soft filter 55%, Saturation -25, Vignette +40. Structure: black (0&ndash;6s) / atmospheric (6&ndash;27s) / black (27&ndash;30s).</li>
+                    <li><span class="cs-num">2</span>Hook text card (0&ndash;6 sec): 64pt white serif typewriter 0.7s. No audio.</li>
+                    <li><span class="cs-num">3</span>At 6 sec: gold quote mark 120pt #FFD700 upper-center. Fade 0.5s. Audio begins at 7 sec, rises to 30% by 9 sec.</li>
+                    <li><span class="cs-num">4</span>At 7 sec: Deborah quote italic serif 56pt white centered. Word-by-word animation medium speed. Complete by 18 sec.</li>
+                    <li><span class="cs-num">5</span>At 19 sec: "&mdash; Deborah" 48pt green (#4ADE80) right-aligned. Fade 0.5s.</li>
+                    <li><span class="cs-num">6</span>At 20 sec: "Lunar Drift, Sleep and Grounding Collection" 38pt white 60% opacity. Fade 0.5s.</li>
+                    <li><span class="cs-num">7</span>At 22 sec: "If this sounds like your nights &mdash; Ancient Roots was built for you." 66pt white center fade 0.5s.</li>
+                    <li><span class="cs-num">8</span>Final black card (27&ndash;30 sec): "Coming April 11th." + "Ancient Roots." #FFD700. Audio fade out. Export 1080x1920, 30fps. Post Monday April 7 at 7:00 AM ET.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REEL 12 -->
+    <div class="rc" id="rc12">
+      <div class="rch" onclick="tog('rc12')">
+        <div class="rnum rn-teal">12</div>
+        <div class="ri">
+          <div class="rtitle">The Loss Urgency &mdash; Every Night Until April 11th</div>
+          <div class="tags"><span class="tag tg-teal">Tue Apr 8 &mdash; 7AM</span><span class="tag tg-gold">Most Aware &mdash; Loss Framing</span><span class="tag tg-x">30 sec</span></div>
+        </div>
+        <div class="rright"><div class="rtime">Tue Apr 8 &mdash; 7:00 AM ET</div><div class="rlen">30 sec</div><div class="rchev">&#9662;</div></div>
+      </div>
+      <div class="rcb">
+        <div class="stage-bar">
+          <div class="stage-ico">&#127919;</div>
+          <div><div class="stage-label">Schwartz Stage</div><div class="stage-name" style="color:var(--teal)">Most Aware &mdash; urgency through loss of desired outcome, not calendar countdown</div><div class="stage-desc">Every night between now and April 11th is a night without the solution they now believe in. That is loss framing &mdash; more powerful than "X days left."</div></div>
+        </div>
+        <div class="hook-box">
+          <div class="hook-lbl">Your Hook &mdash; Loss Framing</div>
+          <div class="hook-text">"Every night between now and April 11th that you lie awake at 3 AM &mdash; there is already an answer waiting for you."</div>
+        </div>
+        <div class="rbg">
+          <div>
+            <div class="rblbl">Recommended Audio</div>
+            <div class="audio-box"><div class="aico">&#127925;</div><div><div class="atrack">963 Hz &mdash; Elevation Code at 40% volume</div><div class="adesc">963 Hz is the Crown Chakra and completion frequency. The "3 days" countdown requires a sense of something arriving &mdash; 963 Hz signals elevation and arrival. Your 963 Hz post earned 57K views with "deep stillness and clarity" &mdash; that same energy serves as the emotional backdrop for the loss urgency frame.</div></div></div>
+          </div>
+          <div>
+            <div class="rblbl">Proven Palette &mdash; 963 Hz (57K) + Night Formula</div>
+            <div class="acc">
+              <div class="palette-row">
+                <div class="chip"><div class="chip-dot" style="background:#040814"></div><span>Near black night</span><span class="chip-hex">#040814</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#FFD700"></div><span>Gold countdown</span><span class="chip-hex">#FFD700</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#2E0854"></div><span>Deep purple</span><span class="chip-hex">#2E0854</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#ffffff"></div><span>White text</span><span class="chip-hex">#FFFFFF</span></div>
+              </div>
+              Near-black-to-purple gradient mirrors your 963 Hz top post (#0A0510 + #2E0854). The "3 days" card uses #FFD700 gold &mdash; the hero color of your #1 and #2 all-time posts.
+            </div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">Facebook Caption</div>
+          <div class="caption">&#10024; Every night between now and April 11th that you lie awake at 3 AM &mdash; there is already an answer waiting for you.
+
+It has been built. Tested. Composed by hand. Backed by research that goes back 5,000 years and forward into MIT laboratories.
+
+3 days from today, Ancient Roots opens its doors to everyone.
+
+&#127769; Nine collections of hand-composed soundscapes
+&#127807; Fifteen personalized frequency profiles
+&#9889; A 28-day protocol built around your nervous system
+
+$4.58 a month. The 3 AM nights are numbered.
+
+&#128172; Drop a &#127769; in the comments if you are ready. We will see you April 11th.
+
+&#127926; Follow this page and turn on notifications right now &mdash; the first 48 hours after launch matter most.</div>
+        </div>
+        <div class="rbg">
+          <div><div class="rblbl">Hashtags</div><div class="hrow"><span class="htag">#963Hz</span><span class="htag">#AncientRoots</span><span class="htag">#SoundHealing</span><span class="htag">#SleepBetter</span><span class="htag">#FrequencyHealing</span></div></div>
+        </div>
+        <!-- NANO BANANA COVER GUIDE R12 -->
+        <div class="nb-guide">
+          <div class="nb-head">&#127912; Nano Banana Cover Image &mdash; Reel 12 &mdash; Loss Urgency / 3 AM</div>
+          <div class="nb-grid">
+            <div class="nb-block">
+              <div class="nb-block-head">&#127760; Background and Palette</div>
+              <div class="nb-block-body">
+                Near-black night with cool blue quality of 3 AM light. Glowing clock face or digital 3:00 AM reading visible as a soft atmospheric element at lower frame. Deep purple-black cosmic sky. Gold countdown energy building from center. Your audience physically recognizes the blue-cast quality of 3 AM &mdash; this is the most emotionally loaded cover in the launch series. Pulls from your 963 Hz post palette (57K views).
+                <div class="nb-palette">
+                  <div class="nb-chip"><div class="nb-dot" style="background:#040814"></div>3AM black-blue</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#FFD700"></div>Gold countdown</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#2E0854"></div>Deep purple</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#1E90FF"></div>Cool night blue</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#ffffff"></div>White text</div>
+                </div>
+              </div>
+            </div>
+            <div class="nb-block">
+              <div class="nb-block-head">&#128424; Text and Layout &mdash; Add in CapCut after generation</div>
+              <div class="nb-text-layout">
+                <div class="nb-line"><div class="nb-line-pos">Upper center</div><div class="nb-line-copy"><strong>"3 AM."</strong> &mdash; massive bold white serif 96pt, period included for weight</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Center</div><div class="nb-line-copy"><strong>"3 DAYS."</strong> &mdash; large neon gold #FFD700, 80pt with gold glow effect</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Below center</div><div class="nb-line-copy"><strong>"There is already an answer."</strong> &mdash; italic serif white 38pt, 80% opacity</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Bottom</div><div class="nb-line-copy"><strong>"ANCIENT ROOTS &mdash; APRIL 11TH"</strong> &mdash; small caps gold 26pt</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="nb-block-full">
+            <div class="nb-block-head">&#127775; Complete Nano Banana Prompt &mdash; copy and paste as-is</div>
+            <div class="nb-prompt">Cinematic night portrait 9x16 vertical, near-black background with the specific cool blue quality of 3 AM light #040814 tinted with subtle #1E90FF blue cast, soft atmospheric glowing clock element at lower frame barely visible in darkness, deep purple-black cosmic depth #2E0854 at upper edges, gold light particles #FFD700 emerging from center building as a gentle countdown energy, moonlit cloud wisps at top, the feeling of lying awake when everything is quiet, cinematic mood lighting, no faces, no people, no text, intimate insomnia wellness sound healing aesthetic, ancient roots media brand, leave clear upper half and center for text overlay, ultra high quality 8K</div>
+          </div>
+        </div>
+
+        <div class="prod-guide">
+          <div class="prod-head">&#127916; Full Production Guide &mdash; Reel 12</div>
+          <div class="prod-body">
+            <div class="prod-grid">
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#127909; Visual &mdash; 3 AM Clock + Night Sky + Countdown</div>
+                <div class="prod-block-body"><strong>Section 1 (0&ndash;8 sec):</strong> 3 AM clock on dark nightstand. Film in 2 minutes or Pexels "bedside clock dark night." The 3 AM moment is a universally recognized symbol your audience physically knows. <strong>Section 2 (8&ndash;22 sec):</strong> Moonlit sky or night clouds &mdash; Pexels "night clouds moonlight slow." <strong>Section 3 (22&ndash;30 sec):</strong> Pure black for the countdown card and CTA. <strong>Color treatment on clock:</strong> Night filter 50%, Color Temperature -15 (cool blue). Your audience physically recognizes this blue-cast quality of 3 AM light.</div>
+              </div>
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#9881; CapCut Step-by-Step</div>
+                <div class="prod-block-body">
+                  <ul class="cs-list">
+                    <li><span class="cs-num">1</span>Import 3 AM clock (8s), moonlit sky (14s), pure black (8s). Night filter 50%, Color Temp -15 on clock. Audio fades in at 5 sec to 40% by 8 sec.</li>
+                    <li><span class="cs-num">2</span>Hook text over clock (0&ndash;8 sec): first half of sentence in 64pt white lower third. Typewriter 0.8s.</li>
+                    <li><span class="cs-num">3</span>Black card (8&ndash;14 sec): "there is already an answer waiting for you." 80pt white INSTANT APPEAR at 8 sec.</li>
+                    <li><span class="cs-num">4</span>Moonlit sky (14&ndash;22 sec): app description sentence 56pt white lower two-thirds. Fade 0.5s.</li>
+                    <li><span class="cs-num">5</span>Pure black countdown card (22&ndash;27 sec): "3 days." 110pt serif #FFD700 center with gold glow effect. "April 11th." 72pt gold below. INSTANT APPEAR both.</li>
+                    <li><span class="cs-num">6</span>Final card (27&ndash;30 sec): CTA sentence 58pt white center fade 0.5s. Audio fade out. Export 1080x1920, 30fps. Post Tuesday April 8 at 7:00 AM ET.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REEL 13 -->
+    <div class="rc" id="rc13">
+      <div class="rch" onclick="tog('rc13')">
+        <div class="rnum rn-gold">13</div>
+        <div class="ri">
+          <div class="rtitle">The Skeptic Converter &mdash; Before You Scroll Past This</div>
+          <div class="tags"><span class="tag tg-gold">Wed Apr 9 &mdash; 7AM</span><span class="tag tg-teal">Objection Resolution</span><span class="tag tg-x">30 sec</span></div>
+        </div>
+        <div class="rright"><div class="rtime">Wed Apr 9 &mdash; 7:00 AM ET</div><div class="rlen">30 sec</div><div class="rchev">&#9662;</div></div>
+      </div>
+      <div class="rcb">
+        <div class="stage-bar">
+          <div class="stage-ico">&#127919;</div>
+          <div><div class="stage-label">Schwartz Stage</div><div class="stage-name" style="color:var(--gold)">Most Aware &mdash; objection resolution for fence-sitters watching in silence</div></div>
+        </div>
+        <div class="hook-box">
+          <div class="hook-lbl">Your Hook</div>
+          <div class="hook-text">"Before you scroll past this &mdash; Ancient Roots has a message specifically for you."</div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">The Three Objections + Responses</div>
+          <div class="screen">
+            <div class="sln"><span class="stm">Obj 1</span><span class="stx">"Nothing has ever worked for me." &mdash; Response (teal): "This is not background music. It is a biological intervention. Your nervous system responds to frequency whether you believe in it or not."</span></div>
+            <div class="sln"><span class="stm">Obj 2</span><span class="stx">"Not sure this is real." &mdash; Response (teal): "We respect your skepticism. Try one 10-minute session. Notice what happens in your body. That is all."</span></div>
+            <div class="sln"><span class="stm">Obj 3</span><span class="stx">"Too busy." &mdash; Response (teal): "Sessions start at 10 minutes. No perfect conditions required. Just headphones and somewhere to sit."</span></div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">Facebook Caption</div>
+          <div class="caption">&#10024; If you have been quietly watching this page for weeks and thinking "sounds interesting but I'm not sure" &mdash; this is for you.
+
+Three things I hear often:
+
+"Nothing has ever worked for me." &mdash; Ancient Roots is not asking you to believe in it. Your nervous system responds to specific frequencies the same way it responds to temperature. Belief is optional. Biology is not.
+
+"I'm not sure this is real." &mdash; We respect that. Try one 10-minute session when the app launches. Notice what you feel. That is all.
+
+"I'm too busy." &mdash; Sessions start at 10 minutes. No dedicated meditation space. No perfect conditions. Just headphones and somewhere to sit.
+
+&#9889; We built an answer for wherever you are
+&#127775; No perfect conditions required
+&#128737; One 10-minute session is all we ask
+
+&#128172; Tell me in the comments &mdash; what has held you back? I am listening.
+
+&#127926; Ancient Roots. April 11th. Two days away. Follow this page and turn on notifications.</div>
+        </div>
+        <div class="rbg">
+          <div><div class="rblbl">Hashtags</div><div class="hrow"><span class="htag">#741Hz</span><span class="htag">#SoundHealing</span><span class="htag">#AncientRoots</span><span class="htag">#FrequencyHealing</span><span class="htag">#EnergyHealing</span></div></div>
+        </div>
+        <!-- NANO BANANA COVER GUIDE R13 -->
+        <div class="nb-guide">
+          <div class="nb-head">&#127912; Nano Banana Cover Image &mdash; Reel 13 &mdash; The Skeptic Converter</div>
+          <div class="nb-grid">
+            <div class="nb-block">
+              <div class="nb-block-head">&#127760; Background and Palette</div>
+              <div class="nb-block-body">
+                Dark storm energy on the left half transitioning to clear teal healing light on the right. Visual metaphor for tension-to-resolution. Lightning bolt transforming into a frequency wave at center. This is your most confrontational cover &mdash; it should arrest a skeptic mid-scroll. Warm amber tension on the left, teal resolution on the right. Pulled from the 741 Hz Throat Chakra post palette (64K views).
+                <div class="nb-palette">
+                  <div class="nb-chip"><div class="nb-dot" style="background:#0D1B3E"></div>Deep storm blue</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#00E5A0"></div>Teal resolution</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#E8A020"></div>Amber tension</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#FFD700"></div>Gold 741 Hz</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#ffffff"></div>White text</div>
+                </div>
+              </div>
+            </div>
+            <div class="nb-block">
+              <div class="nb-block-head">&#128424; Text and Layout &mdash; Add in CapCut after generation</div>
+              <div class="nb-text-layout">
+                <div class="nb-line"><div class="nb-line-pos">Upper left</div><div class="nb-line-copy"><strong>"Nothing has worked."</strong> &mdash; bold white 52pt, Shake animation, warm amber tint</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Center</div><div class="nb-line-copy"><strong>"Until now."</strong> &mdash; massive neon teal #00E5A0, 88pt with electric glow &mdash; the visual answer</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Below center</div><div class="nb-line-copy"><strong>"741 Hz"</strong> &mdash; gold #FFD700, 64pt with glow</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Bottom</div><div class="nb-line-copy"><strong>"ANCIENT ROOTS &mdash; APRIL 11TH"</strong> &mdash; small caps teal 26pt</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="nb-block-full">
+            <div class="nb-block-head">&#127775; Complete Nano Banana Prompt &mdash; copy and paste as-is</div>
+            <div class="nb-prompt">Dramatic contrast energy art 9x16 vertical, left side dark storm energy with deep navy #0D1B3E and amber tension #E8A020 lightning bolt, right side transitioning to clear teal healing light #00E5A0 frequency waves radiating outward, lightning bolt at center transforming into a smooth frequency wave at the transition point, dramatic dark background with this left-to-right tension-to-resolution energy arc, gold sacred geometry lines #FFD700 emerging from the transformation point, cinematic confrontation-to-relief aesthetic, no faces, no people, no text, leave upper two-thirds and center clear for text overlay, sound healing frequency wellness transformation art, ultra vibrant dramatic contrast, ultra high quality 8K</div>
+          </div>
+        </div>
+
+        <div class="prod-guide">
+          <div class="prod-head">&#127916; Full Production Guide &mdash; Reel 13</div>
+          <div class="prod-body">
+            <div class="prod-grid">
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#127909; Animation System &mdash; Shake (Objection) vs Rise (Response)</div>
+                <div class="prod-block-body"><strong>Objection text:</strong> White, CapCut Animation &mdash; In &mdash; Shake 0.3s. Warm Amber filter 15% on background during objections. <strong>Response text (teal #00E5A0):</strong> CapCut Animation &mdash; In &mdash; Rise. Cool Color Temperature -10 shift simultaneously. The physical animation contrast &mdash; shake vs. rise &mdash; creates a body-level experience of problem and resolution that reinforces the copy. This is the proven "Save and use as needed" CTA register from your 716K post applied to an objection framework.</div>
+              </div>
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#9881; CapCut Step-by-Step</div>
+                <div class="prod-block-body">
+                  <ul class="cs-list">
+                    <li><span class="cs-num">1</span>Import storm clouds / dark ocean footage (Pexels "storm clouds dark"). Apply Amber filter 15% globally.</li>
+                    <li><span class="cs-num">2</span>Structure: pure black (0&ndash;5s) / atmospheric (5&ndash;25s) / pure black (25&ndash;30s).</li>
+                    <li><span class="cs-num">3</span>Hook (0&ndash;5 sec): 66pt white typewriter 0.6s. No audio.</li>
+                    <li><span class="cs-num">4</span>Audio fades in at 5 sec to 35% by 8 sec (741 Hz).</li>
+                    <li><span class="cs-num">5</span>Each objection (5&ndash;25 sec): white 72pt Shake animation. Response below in teal (#00E5A0) Rise animation. Color Temperature -10 shift during response moments.</li>
+                    <li><span class="cs-num">6</span>Resolution card (25&ndash;30 sec): pure black. "Ancient Roots was built for wherever you are. April 11th." 68pt white fade. "Ancient Roots." 64pt #FFD700. Audio fade out. Export 1080x1920, 30fps. Post Wednesday April 9 at 7:00 AM ET.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REEL 14 -->
+    <div class="rc" id="rc14">
+      <div class="rch" onclick="tog('rc14')">
+        <div class="rnum rn-vio">14</div>
+        <div class="ri">
+          <div class="rtitle">The Eve Reel &mdash; Tomorrow Everything We Built Becomes Yours</div>
+          <div class="tags"><span class="tag tg-vio">Thu Apr 10 &mdash; 7AM</span><span class="tag tg-gold">Launch Eve</span><span class="tag tg-x">Pure Emotion</span><span class="tag tg-x">30 sec</span></div>
+        </div>
+        <div class="rright"><div class="rtime">Thu Apr 10 &mdash; 7:00 AM ET</div><div class="rlen">30 sec</div><div class="rchev">&#9662;</div></div>
+      </div>
+      <div class="rcb">
+        <div class="stage-bar">
+          <div class="stage-ico">&#127919;</div>
+          <div><div class="stage-label">Schwartz Stage</div><div class="stage-name" style="color:var(--vio)">Most Aware &mdash; emotional peak, no features, no education, just the feeling of arrival</div></div>
+        </div>
+        <div class="hook-box">
+          <div class="hook-lbl">Your Hook &mdash; The Single Most Restrained Line in the Series</div>
+          <div class="hook-text">"Tomorrow."</div>
+        </div>
+        <div class="rbg">
+          <div>
+            <div class="rblbl">Recommended Audio</div>
+            <div class="audio-box"><div class="aico">&#127925;</div><div><div class="atrack">888 Hz Abundance &mdash; full circle to your hero frequency</div><div class="adesc">888 Hz was the frequency that drove your single highest-viewed post at 716K views. Your Mercury post at 73K used it too. Coming back to it the night before launch closes the emotional arc of the entire series. Long-term followers feel the return. New followers discover your most-loved frequency. Begin at 0% volume, rise very slowly &mdash; the silence under "Tomorrow." is intentional.</div></div></div>
+          </div>
+          <div>
+            <div class="rblbl">Proven Palette &mdash; 888 Hz #1 Post (716K)</div>
+            <div class="acc">
+              <div class="palette-row">
+                <div class="chip"><div class="chip-dot" style="background:#0A0A0A"></div><span>Deep black open</span><span class="chip-hex">#0A0A0A</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#FFD700"></div><span>Neon gold &mdash; "Tomorrow."</span><span class="chip-hex">#FFD700</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#E8A020"></div><span>Warm amber &mdash; sunrise</span><span class="chip-hex">#E8A020</span></div>
+                <div class="chip"><div class="chip-dot" style="background:#ffffff"></div><span>White body text</span><span class="chip-hex">#FFFFFF</span></div>
+              </div>
+              Exact palette of your 716K post. Coming back to it the night before launch creates visual recognition and emotional resonance for followers who have been with you since the beginning.
+            </div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">On-Screen Text &mdash; Minimal by Design</div>
+          <div class="screen">
+            <div class="sln"><span class="stm">0&ndash;5 sec</span><span class="stx"><strong>Pure black.</strong> "Tomorrow." 110pt serif #FFD700 gold dead center. Instant appear at 0.5 sec. NO animation. Sits alone for 4 full seconds. 888 Hz begins at 0, rising very slowly.</span></div>
+            <div class="sln"><span class="stm">5&ndash;20 sec</span><span class="stx"><strong>Dawn timelapse begins.</strong> "Everything we have been building together becomes yours." 68pt serif white lower third. Slow fade 1.2s &mdash; longest single text fade in the series.</span></div>
+            <div class="sln"><span class="stm">20&ndash;27 sec</span><span class="stx"><strong>Sky brightening &mdash; keyframe brightness rising.</strong> "Thank you for being here." Italic serif 68pt #FFD700 gold center. Slow fade 1.2s. The only time in 15 reels you thank the community directly.</span></div>
+            <div class="sln"><span class="stm">27&ndash;30 sec</span><span class="stx"><strong>Full golden light.</strong> "Ancient Roots." 80pt white center. Below: "April 11th." 64pt gold. Slow fade 0.8s.</span></div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">Facebook Caption</div>
+          <div class="caption">&#127807; Tomorrow.
+
+Ancient Roots opens its doors.
+
+Over the past weeks you have been here for every reel, every frequency, every story. You have asked questions, shared posts, dropped your archetypes in the comments, and told your friends.
+
+This app exists because of this community.
+
+Tomorrow morning at 7 AM ET the quiz goes live. The frequency profiles are waiting. The nine collections &mdash; dozens of hand-composed soundscapes &mdash; are ready.
+
+&#9889; Composed by humans. No AI. All soul.
+
+See you in the morning.
+
+&#127926; Ancient Roots. April 11th. 7:00 AM ET. Follow this page and turn on notifications right now so you do not miss the moment.</div>
+        </div>
+        <div class="rbg">
+          <div><div class="rblbl">Hashtags</div><div class="hrow"><span class="htag">#888Hz</span><span class="htag">#AncientRoots</span><span class="htag">#SoundHealing</span><span class="htag">#AbundanceEnergy</span><span class="htag">#FrequencyHealing</span></div></div>
+        </div>
+        <!-- NANO BANANA COVER GUIDE R14 -->
+        <div class="nb-guide">
+          <div class="nb-head">&#127912; Nano Banana Cover Image &mdash; Reel 14 &mdash; The Eve Reel</div>
+          <div class="nb-grid">
+            <div class="nb-block">
+              <div class="nb-block-head">&#127760; Background and Palette</div>
+              <div class="nb-block-body">
+                Pre-dawn to golden sunrise. Deep amber and gold light breaking over a dark horizon. The most anticipatory cover in the series &mdash; something significant is about to begin. Ancient roots tree of life in full gold silhouette rising from the lower frame. Cinematic launch-eve energy &mdash; this should feel like a movie release announcement. Exact palette of your 888 Hz top post (716K views).
+                <div class="nb-palette">
+                  <div class="nb-chip"><div class="nb-dot" style="background:#0A0A0A"></div>Pre-dawn black</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#FFD700"></div>Launch gold</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#E8A020"></div>Amber dawn</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#FF6EC7"></div>Hot pink accent</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#ffffff"></div>White text</div>
+                </div>
+              </div>
+            </div>
+            <div class="nb-block">
+              <div class="nb-block-head">&#128424; Text and Layout &mdash; Add in CapCut after generation</div>
+              <div class="nb-text-layout">
+                <div class="nb-line"><div class="nb-line-pos">Upper center</div><div class="nb-line-copy"><strong>"Tomorrow."</strong> &mdash; massive bold serif #FFD700 gold, 110pt. INSTANT APPEAR. No animation. The period is load-bearing.</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Center</div><div class="nb-line-copy"><strong>"Ancient Roots"</strong> &mdash; bold white with gold outer glow, 72pt</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Below center</div><div class="nb-line-copy"><strong>"Everything we built becomes yours."</strong> &mdash; italic serif white 38pt, 80% opacity</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Bottom</div><div class="nb-line-copy"><strong>"APRIL 11TH"</strong> &mdash; hot pink #FF6EC7 neon, 52pt with glow &mdash; date as event</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="nb-block-full">
+            <div class="nb-block-head">&#127775; Complete Nano Banana Prompt &mdash; copy and paste as-is</div>
+            <div class="nb-prompt">Golden dawn sunrise explosion over dark horizon 9x16 vertical, pre-dawn near-black #0A0A0A at top transitioning to rich amber gold #E8A020 and brilliant neon gold #FFD700 light rays at the horizon, ancient roots tree of life symbol in full glowing gold silhouette rising from the lower center frame, sacred geometry rings of gold expanding upward from the tree, dawn light particles rising upward like a launch countdown, cinematic announcement energy &mdash; like a major film release, deep dark sky with golden horizon explosion, no faces, no people, no text, leave clear upper two-thirds center for text overlay, sound healing frequency launch announcement aesthetic, ultra vibrant golden dawn palette maximum intensity, ultra high quality 8K</div>
+          </div>
+        </div>
+
+        <div class="prod-guide">
+          <div class="prod-head">&#127916; Full Production Guide &mdash; Reel 14</div>
+          <div class="prod-body">
+            <div class="prod-grid">
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#127909; The Sky Arc &mdash; Darkness to Full Gold</div>
+                <div class="prod-block-body">Pure black (0&ndash;5s) then pre-dawn to golden hour timelapse. Pexels: "sunrise timelapse sky" or "golden hour clouds time lapse." <strong>KEYFRAME BRIGHTNESS:</strong> tap the diamond icon on Brightness &mdash; set -20 at 0 seconds, +10 at 27 seconds. The reel literally brightens as it plays. The emotional arc is embedded in the light itself. <strong>Filter: Film &mdash; Golden at 40%.</strong> Warmth +20 globally. This matches exactly the golden-amber palette of your 716K post.</div>
+              </div>
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#9881; CapCut Step-by-Step</div>
+                <div class="prod-block-body">
+                  <ul class="cs-list">
+                    <li><span class="cs-num">1</span>Pure black background (0&ndash;5 sec).</li>
+                    <li><span class="cs-num">2</span>At 0.5 sec: "Tomorrow." 110pt serif #FFD700 gold dead center. INSTANT APPEAR. No animation whatsoever.</li>
+                    <li><span class="cs-num">3</span>Import sunrise timelapse at 5 seconds. Golden filter 40%, Warmth +20. KEYFRAME Brightness: -20 at 5 sec, +10 at 27 sec.</li>
+                    <li><span class="cs-num">4</span>Text at 5 sec: "Everything we have been building together becomes yours." 68pt white lower third. Slow fade 1.2s.</li>
+                    <li><span class="cs-num">5</span>Text at 20 sec: "Thank you for being here." Italic serif 68pt #FFD700 gold center. Slow fade 1.2s.</li>
+                    <li><span class="cs-num">6</span>Text at 27 sec: "Ancient Roots." 80pt white + "April 11th." 64pt gold. Slow fade 0.8s.</li>
+                    <li><span class="cs-num">7</span>Audio: 888 Hz at 0% at start. Rise very slowly &mdash; 15% by 5 sec, 50% by 12 sec, 55% through 27 sec. Silence under "Tomorrow." is intentional and powerful. Export 1080x1920, 30fps. Post Thursday April 10 at 7:00 AM ET.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REEL 15 -->
+    <div class="rc" id="rc15">
+      <div class="rch" onclick="tog('rc15')">
+        <div class="rnum rn-gold">15</div>
+        <div class="ri">
+          <div class="rtitle">Launch Day &mdash; Ancient Roots Is Live</div>
+          <div class="tags"><span class="tag tg-gold">Apr 11 &mdash; 7:00 AM ET</span><span class="tag tg-rose">URL GOES LIVE</span><span class="tag tg-teal">THE MOMENT</span><span class="tag tg-x">45 sec</span></div>
+        </div>
+        <div class="rright"><div class="rtime">Sat Apr 11 &mdash; 7:00 AM ET</div><div class="rlen">45 sec</div><div class="rchev">&#9662;</div></div>
+      </div>
+      <div class="rcb">
+        <div class="stage-bar">
+          <div class="stage-ico">&#127919;</div>
+          <div><div class="stage-label">Schwartz Stage</div><div class="stage-name" style="color:var(--gold)">Most Aware &mdash; direct offer, URL appears for the first time in 15 reels</div><div class="stage-desc">The only reel with a URL. 14 reels of withholding the link has built anticipation. The reveal is its own event. Lead with the offer directly &mdash; this is the only reel where that is right.</div></div>
+        </div>
+        <div class="hook-box">
+          <div class="hook-lbl">Your Opening Card &mdash; Maximum Restraint</div>
+          <div class="hook-text">"Today. Ancient Roots is live."</div>
+        </div>
+        <div class="rbg">
+          <div>
+            <div class="rblbl">Recommended Audio</div>
+            <div class="audio-box"><div class="aico">&#127925;</div><div><div class="atrack">888 Hz Abundance &mdash; full volume &mdash; the series closes where it began</div><div class="adesc">888 Hz opened your journey at 716K views. It closes the 15-reel arc on launch day. 673 documented community mentions. Long-term followers feel the completion of the series the moment they hear it. Play at your highest volume in the series &mdash; 65%. The launch deserves it.</div></div></div>
+          </div>
+          <div>
+            <div class="rblbl">The URL Reveal Moment</div>
+            <div class="acc"><strong>The URL appears for the first and only time in this reel at the 38-second mark.</strong> 14 reels of "coming April 11th" with no link has made this reveal an event in itself. Place the URL in teal (#00E5A0) &mdash; your proven CTA color from the 716K post. Also place it in the caption. This is the moment your proven "Tune in Now" / "Listen Now" CTA energy from all 13 top reels converges into a single action.</div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">On-Screen Text &mdash; The Full Arc Resolves</div>
+          <div class="screen">
+            <div class="sln"><span class="stm">0&ndash;5 sec</span><span class="stx"><strong>Pure black.</strong> "Today." 110pt serif #FFD700 gold dead center. Instant appear. Silence &mdash; 888 Hz begins rising at 0%.</span></div>
+            <div class="sln"><span class="stm">5&ndash;8 sec</span><span class="stx"><strong>Pure black.</strong> "Ancient Roots is live." 80pt white center. Slow fade 1.2s &mdash; longest single text fade in the series.</span></div>
+            <div class="sln"><span class="stm">8&ndash;30 sec</span><span class="stx"><strong>App screen recording.</strong> Resonance Portal (5s) &mdash; archetype result (8s) &mdash; library (7s) &mdash; player (5s). No text overlay. 888 Hz builds to 65% volume here. The app speaks for itself.</span></div>
+            <div class="sln"><span class="stm">30&ndash;38 sec</span><span class="stx"><strong>Sunrise over water.</strong> "Nine collections. Fifteen frequency profiles. 28-day protocol. Composed by humans. No AI. All soul. $4.58 a month." 50pt white lower two-thirds. Fade 0.6s.</span></div>
+            <div class="sln"><span class="stm">38&ndash;42 sec</span><span class="stx"><strong>Full golden light.</strong> "Welcome to the community." Italic serif 72pt #FFD700 gold center. Slow fade 1.2s. This is the emotional payoff of the entire series.</span></div>
+            <div class="sln"><span class="stm">42&ndash;45 sec</span><span class="stx"><strong>White fade out.</strong> URL in teal (#00E5A0) 50pt center. "Ancient Roots." 64pt white. Keyframe opacity of white overlay: 0% at 42s, 100% at 45s. Screen goes white &mdash; a beginning, not an ending.</span></div>
+          </div>
+        </div>
+        <div class="rbf">
+          <div class="rblbl">Facebook Caption &mdash; Launch Day</div>
+          <div class="caption">&#10024; Today is the day.
+
+Ancient Roots is live.
+
+Nine collections. Fifteen personalized frequency archetypes. A 28-day guided protocol. Grammy-level craftsmanship. Ancient wisdom. Modern neuroscience. All in one place.
+
+Composed by humans. No AI. All soul.
+
+The quiz takes 60 seconds. What it reveals about you might take your breath away.
+
+$4.58 a month. Less than a cup of coffee for a frequency experience 30 years in the making.
+
+&#127775; Unlock your frequency profile
+&#9889; Begin your 28-day protocol
+&#127807; Welcome to the community
+
+Welcome home. &#127807;
+
+&#128279; [YOUR URL HERE]
+
+&#128071; Take the quiz right now and drop your archetype in the comments. We want to see who you are.</div>
+        </div>
+        <div class="rbg">
+          <div><div class="rblbl">Hashtags</div><div class="hrow"><span class="htag">#AncientRoots</span><span class="htag">#888Hz</span><span class="htag">#SoundHealing</span><span class="htag">#FrequencyHealing</span><span class="htag">#AbundanceEnergy</span></div></div>
+        </div>
+        <!-- NANO BANANA COVER GUIDE R15 -->
+        <div class="nb-guide">
+          <div class="nb-head">&#127912; Nano Banana Cover Image &mdash; Reel 15 &mdash; Launch Day</div>
+          <div class="nb-grid">
+            <div class="nb-block">
+              <div class="nb-block-head">&#127760; Background and Palette</div>
+              <div class="nb-block-body">
+                Full radiant light explosion from center. Ancient roots tree of life in full bloom made of gold and teal light. 888 Hz sacred geometry rings expanding outward. This is your most visually intense cover in the entire series &mdash; it should look like an event, not a post. Maximum vibrant intensity. Celebration of light and sound. The full palette of all your top reels converging in one image. This is the moment.
+                <div class="nb-palette">
+                  <div class="nb-chip"><div class="nb-dot" style="background:#000000"></div>Pure black</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#FFD700"></div>888 Hz gold</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#00E5A0"></div>Brand teal CTA</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#8B2FC9"></div>Celebration violet</div>
+                  <div class="nb-chip"><div class="nb-dot" style="background:#ffffff"></div>Pure white</div>
+                </div>
+              </div>
+            </div>
+            <div class="nb-block">
+              <div class="nb-block-head">&#128424; Text and Layout &mdash; Add in CapCut after generation</div>
+              <div class="nb-text-layout">
+                <div class="nb-line"><div class="nb-line-pos">Top center</div><div class="nb-line-copy"><strong>"WE ARE LIVE"</strong> &mdash; the largest boldest neon gold #FFD700 of the entire series, 100pt with maximum outer glow</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Center large</div><div class="nb-line-copy"><strong>"Ancient Roots"</strong> &mdash; electric teal #00E5A0, 80pt with teal glow &mdash; brand arrival</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Below center</div><div class="nb-line-copy"><strong>"April 11th"</strong> &mdash; bright violet #8B2FC9, 60pt with violet glow &mdash; celebration</div></div>
+                <div class="nb-line"><div class="nb-line-pos">Bottom</div><div class="nb-line-copy"><strong>URL in teal #00E5A0</strong> &mdash; 32pt, the first time it appears on any cover</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="nb-block-full">
+            <div class="nb-block-head">&#127775; Complete Nano Banana Prompt &mdash; copy and paste as-is</div>
+            <div class="nb-prompt">Radiant sacred light explosion from center 9x16 vertical, pure black background #000000, ancient roots tree of life in full bloom made entirely of brilliant gold and teal light #FFD700 and #00E5A0 rising from lower center, 888 Hz sacred geometry rings expanding outward in concentric gold circles, celebration starburst of light in all directions &mdash; gold, teal, violet #8B2FC9 and white light rays radiating outward from the tree, maximum vibrant intensity ultra neon all colors, divine arrival energy &mdash; this is not a beginning it is a completion, sacred frequency launch event aesthetic, no faces, no people, no text, leave clear upper third and center for text overlay, ultra vibrant maximum intensity all colors, 8K cinematic event launch art</div>
+          </div>
+        </div>
+
+        <div class="prod-guide">
+          <div class="prod-head">&#127916; Full Production Guide &mdash; Reel 15 &mdash; Launch Day</div>
+          <div class="prod-body">
+            <div class="prod-grid">
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#127909; The Full Arc &mdash; Darkness to White</div>
+                <div class="prod-block-body"><strong>Reel 15 resolves the visual arc of the entire series.</strong> Opens in pure black (before Ancient Roots) &mdash; moves through the app (the solution) &mdash; through sunrise (hope, arrival) &mdash; ends in a white fade (a birth, not a closing). The conscious viewer may not notice this structure. Every viewer will feel it. Sections: pure black (0&ndash;8s) / app recording (8&ndash;30s) / sunrise over water (30&ndash;42s) / white fade-out (42&ndash;45s).</div>
+              </div>
+              <div class="prod-block">
+                <div class="prod-block-head">&#127912; Color &mdash; The Full Palette Resolves</div>
+                <div class="prod-block-body">No single filter across all sections. <strong>"Today." in #FFD700 gold</strong> &mdash; your #1 and #2 post palette color. App section: Fade filter 20% only, native teal UI. Sunrise: Golden filter 45%, Warmth +30. <strong>White fade:</strong> add white overlay layer &mdash; keyframe opacity 0% at 42s, 100% at 45s. <strong>URL in #00E5A0 teal</strong> &mdash; your proven CTA color from the 716K post. The series begins with gold and ends with teal &mdash; your brand's two proven performance colors in a single reel.</div>
+              </div>
+              <div class="prod-block prod-full">
+                <div class="prod-block-head">&#9881; CapCut Step-by-Step</div>
+                <div class="prod-block-body">
+                  <ul class="cs-list">
+                    <li><span class="cs-num">1</span>Record app live: Resonance Portal (5s), archetype result (8s), library (7s), player (5s) = 25 seconds total recording.</li>
+                    <li><span class="cs-num">2</span>Import sunrise over water from Pexels: "sunrise ocean golden hour" &mdash; 15 seconds at end.</li>
+                    <li><span class="cs-num">3</span>Structure: pure black (0&ndash;8s) / app recording (8&ndash;30s) / sunrise (30&ndash;42s) / white fade (42&ndash;45s).</li>
+                    <li><span class="cs-num">4</span>At 0.5 sec: "Today." 110pt #FFD700 dead center. INSTANT APPEAR. Audio begins at 0% rising very slowly.</li>
+                    <li><span class="cs-num">5</span>At 5 sec: "Ancient Roots is live." 80pt white slow fade 1.2s. Audio rises to 40% by 10 sec.</li>
+                    <li><span class="cs-num">6</span>App recording (8&ndash;30 sec): Fade filter 20% only. No text overlay. 888 Hz reaches 65% by 20 sec.</li>
+                    <li><span class="cs-num">7</span>Sunrise (30&ndash;38 sec): Golden filter 45%, Warmth +30. Specs in 50pt white lower two-thirds. Fade 0.6s.</li>
+                    <li><span class="cs-num">8</span>At 38 sec: "Welcome to the community." Italic serif 72pt #FFD700 gold center. Slow fade 1.2s.</li>
+                    <li><span class="cs-num">9</span>At 42 sec: URL in teal (#00E5A0) 50pt + "Ancient Roots." 64pt white. White overlay layer &mdash; keyframe 0% opacity at 42s, 100% at 45s. Screen goes white.</li>
+                    <li><span class="cs-num">10</span>Export 1080x1920, 30fps. Post Saturday April 11 at 7:00 AM ET exactly. This is the moment.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================
+     COPY PLAYBOOK
+============================================================ -->
+<div class="panel" id="p-cp">
+  <div class="sh-lbl">Extracted From 13 Top Reels</div>
+  <div class="sh-title">Copy Playbook &mdash; What Proven Winners Use</div>
+  <div class="sh-desc">Every pattern here comes directly from analyzing your 13 top-performing reels (50K+ views each). This is not theory &mdash; it is what your specific audience on your specific page has voted on with their attention.</div>
+
+  <div class="sh-lbl">Power Words &mdash; Transformation Language</div>
+  <div class="pw-grid">
+    <div class="pw"><div class="pw-word">Reset</div><div class="pw-type">Action trigger</div></div>
+    <div class="pw"><div class="pw-word">Release</div><div class="pw-type">Emotional relief</div></div>
+    <div class="pw"><div class="pw-word">Realign</div><div class="pw-type">Spiritual authority</div></div>
+    <div class="pw"><div class="pw-word">Unlock</div><div class="pw-type">Access/opening</div></div>
+    <div class="pw"><div class="pw-word">Activate</div><div class="pw-type">Energy/science</div></div>
+    <div class="pw"><div class="pw-word">Shift</div><div class="pw-type">Change moment</div></div>
+    <div class="pw"><div class="pw-word">Cellular</div><div class="pw-type">Science credibility</div></div>
+    <div class="pw"><div class="pw-word">Ancient</div><div class="pw-type">Authority/tradition</div></div>
+    <div class="pw"><div class="pw-word">Vibrational</div><div class="pw-type">Mechanism language</div></div>
+  </div>
+
+  <div class="sh-lbl" style="margin-top:4px">Proven Opening Lines &mdash; Hook Structures</div>
+  <div class="cp-grid">
+    <div class="cp-card">
+      <div class="cp-head">Emotional Problem Hooks (Problem Aware)</div>
+      <div class="cp-item">"Feeling heavy? It's time to release."</div>
+      <div class="cp-item">"Feeling stuck? This is your energetic reset."</div>
+      <div class="cp-item">"Close your eyes. Breathe in. Let the noise fade."</div>
+      <div class="cp-item">"Let go of fear, release guilt, reconnect with your strength."</div>
+    </div>
+    <div class="cp-card">
+      <div class="cp-head">Authority / Curiosity Hooks (Solution Aware)</div>
+      <div class="cp-item">"This frequency isn't just a sound &mdash; it's a cellular reset."</div>
+      <div class="cp-item">"Nikola Tesla Said These Three Numbers Were The Key To The Universe."</div>
+      <div class="cp-item">"This Ancient Frequency Was Used For Thousands of Years. Now Science Is Catching Up."</div>
+      <div class="cp-item">"This is what 528 Hz sounds like on a tuning fork."</div>
+    </div>
+    <div class="cp-card">
+      <div class="cp-head">Proven Caption CTAs</div>
+      <div class="cp-item">"Save this for your next reset."</div>
+      <div class="cp-item">"Tag someone who needs this."</div>
+      <div class="cp-item">"Listen now and feel the shift."</div>
+      <div class="cp-item">"Save, Repeat, and use as needed."</div>
+    </div>
+    <div class="cp-card">
+      <div class="cp-head">Proven Benefit Stack Rhythm</div>
+      <div class="cp-item">&#9889; [Science outcome] &mdash; cellular, neural, biological</div>
+      <div class="cp-item">&#127775; [Emotional outcome] &mdash; peace, alignment, balance</div>
+      <div class="cp-item">&#128737; [Protection/safety outcome] &mdash; grounded, safe, protected</div>
+    </div>
+  </div>
+
+  <div class="sh-lbl">Master Color System &mdash; Proven Performers</div>
+  <div class="icard">
+    <div class="irow"><div class="iico">&#11035;</div><div><div class="ititle">Background &mdash; #0A0A0A / #050505 Deep Black</div><div class="isub">Used in 11 of 13 top reels. The near-black background is non-negotiable. Every reel that crossed 50K views uses it. It creates the contrast that makes gold and teal pop and signals the premium, sacred quality of the content.</div></div></div>
+    <div class="irow"><div class="iico">&#128249;</div><div><div class="ititle">Hero Color &mdash; #FFD700 Gold (716K + 686K posts)</div><div class="isub">The two highest-performing posts both lead with gold as the dominant accent. Use #FFD700 for the frequency number, the headline Hz value, and the brand name reveal. This is your conversion color &mdash; when the audience sees gold they associate it with Ancient Roots authority.</div></div></div>
+    <div class="irow"><div class="iico">&#128994;</div><div><div class="ititle">CTA Color &mdash; #00E5A0 Teal-Green (716K post)</div><div class="isub">The "Save and use as needed" button in your #1 post uses this exact teal-green. It is your proven action color. Use it for CTA text, response text in the skeptic reel, and the URL on launch day.</div></div></div>
+    <div class="irow"><div class="iico">&#128996;</div><div><div class="ititle">Amber Accent &mdash; #D4A017 / #E8A020 Warm Gold</div><div class="isub">Your 686K 741 Hz post uses warm amber as the secondary gold &mdash; slightly more orange than pure #FFD700, giving warmth and depth. Use for light ray effects, warm background gradients, and the "Ancient Roots" brand line in human-story reels.</div></div></div>
+    <div class="irow"><div class="iico">&#128992;</div><div><div class="ititle">Frequency-Specific Accents</div><div class="isub">852 Hz and spiritual reels: violet #8B2FC9. 963 Hz: pink-magenta #E01060. 528 Hz / love: magenta #D63384. 741 Hz / throat: electric blue #1E90FF. 111 Hz: forest green #1A3A2A + teal #20B2AA. These are the exact colors your audience associates with each frequency based on what performed.</div></div></div>
+  </div>
+
+  <div class="sh-lbl">Sentence Rhythm &mdash; The Proven Format</div>
+  <div class="sh-desc">Your top caption "Close your eyes. Breathe in. Let the noise fade." is three-word sentences. Your 686K hook is two sentences with a period between them. Short. Punchy. Each sentence earns its own line. No long paragraphs in the hook. Every word is doing a job. This rhythm is the single most copyable pattern from your top 13 reels and it should appear in every caption and every text card from now through launch.</div>
+</div>
+
+<!-- ============================================================
+     ARCHETYPES
+============================================================ -->
+<div class="panel" id="p-arc">
+  <div class="sh-lbl">Complete Reference</div>
+  <div class="sh-title">The 15 Frequency Archetypes</div>
+  <div class="sh-desc">Five primary goals multiplied by three orientation tiers. Each archetype is its own post-launch content series &mdash; "Are you a Sacred Journeyer?" style content can run for months after April 11th, each driving a new quiz-taker wave. Post-launch each archetype also maps to a specific frequency from your top 13 reels, creating a proven content formula for every profile.</div>
+  <div class="mx-wrap">
+    <table class="mx">
+      <thead><tr><th>Goal</th><th class="th-t">Science Tier</th><th class="th-g">Spiritual Tier</th><th class="th-v">Balanced Tier</th></tr></thead>
+      <tbody>
+        <tr><td class="gc">Sleep</td><td class="msc"><span class="an">The Deep Restorer</span><span class="af">Delta + 432 Hz</span></td><td class="msp"><span class="an">The Dream Weaver</span><span class="af">Delta + Theta + 528 Hz</span></td><td class="msb"><span class="an">The Night Guardian</span><span class="af">Delta + 432 Hz + 528 Hz</span></td></tr>
+        <tr><td class="gc">Calm</td><td class="msc"><span class="an">The Calm Scientist</span><span class="af">Alpha + 432 Hz</span></td><td class="msp"><span class="an">The Peace Seeker</span><span class="af">Theta + 528 Hz + 639 Hz</span></td><td class="msb"><span class="an">The Peaceful Warrior</span><span class="af">Alpha-Theta + 528 Hz</span></td></tr>
+        <tr><td class="gc">Focus</td><td class="msc"><span class="an">The Clear Mind</span><span class="af">Beta + 741 Hz</span></td><td class="msp"><span class="an">The Centered Soul</span><span class="af">Alpha-Beta + 852 Hz</span></td><td class="msb"><span class="an">The Flow State</span><span class="af">SMR Beta + 741 Hz</span></td></tr>
+        <tr><td class="gc">Spiritual</td><td class="msc"><span class="an">The Curious Explorer</span><span class="af">Theta + Full Solfeggio Intro</span></td><td class="msp"><span class="an">The Sacred Journeyer</span><span class="af">Deep Theta + Gamma + 963 Hz</span></td><td class="msb"><span class="an">The Awakening One</span><span class="af">Theta-Gamma + 888 Hz</span></td></tr>
+        <tr><td class="gc">Wellbeing</td><td class="msc"><span class="an">The Optimizer</span><span class="af">Full spectrum rotation</span></td><td class="msp"><span class="an">The Whole Being</span><span class="af">Full Chakra + Solfeggio</span></td><td class="msb"><span class="an">The Life Harmonizer</span><span class="af">432 Hz + 528 Hz adaptive blend</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert al-gold"><strong>Post-launch content engine:</strong> Each archetype maps directly to a proven frequency from your top 13 reels. The Night Guardian maps to 741 Hz (686K views). The Awakening One maps to 888 Hz (716K views). The Centered Soul maps to 852 Hz (188K views). Every post-launch archetype reel already has a proven visual formula and hook structure ready to use.</div>
+</div>
+
+<!-- ============================================================
+     SCHEDULE
+============================================================ -->
+<div class="panel" id="p-sch">
+  <div class="sh-lbl">Updated &mdash; 11 Days Out</div>
+  <div class="sh-title">Complete Schedule &mdash; Mar 31 to Apr 11</div>
+  <div class="sh-desc">All times Eastern. Every post at or before 9:00 AM ET without exception. Your data is definitive on this.</div>
+  <div class="sched">
+    <div class="scrd">
+      <div class="scrh">This Week &mdash; Mar 31 to Apr 3</div>
+      <div class="scri sc-today"><div class="sc-day">TODAY &mdash; Tue Mar 31</div><div class="sc-reel">Reel 7 &mdash; The Exhaustion Mirror</div><div class="sc-time">7:00 AM ET &mdash; POST NOW</div></div>
+      <div class="scri"><div class="sc-day">Wed Apr 1</div><div class="sc-reel">Reel 8 &mdash; The Mechanism Deepener</div><div class="sc-time">7:00 AM ET</div></div>
+      <div class="scri"><div class="sc-day">Thu Apr 2</div><div class="sc-reel">Reel 9 &mdash; The Origin Story</div><div class="sc-time">7:00 AM ET</div></div>
+      <div class="scri"><div class="sc-day">Fri Apr 3</div><div class="sc-reel">Reel 10 &mdash; The Quiz Differentiator</div><div class="sc-time">7:00 AM ET</div></div>
+    </div>
+    <div class="scrd">
+      <div class="scrh">Launch Week &mdash; Apr 7 to Apr 9</div>
+      <div class="scri"><div class="sc-day">Mon Apr 7</div><div class="sc-reel">Reel 11 &mdash; Social Proof (Deborah)</div><div class="sc-time">7:00 AM ET</div></div>
+      <div class="scri"><div class="sc-day">Tue Apr 8</div><div class="sc-reel">Reel 12 &mdash; Loss Urgency (3 AM)</div><div class="sc-time">7:00 AM ET</div></div>
+      <div class="scri"><div class="sc-day">Wed Apr 9</div><div class="sc-reel">Reel 13 &mdash; Skeptic Converter</div><div class="sc-time">7:00 AM ET</div></div>
+    </div>
+    <div class="scrd">
+      <div class="scrh">Final 48 Hours + Launch</div>
+      <div class="scri"><div class="sc-day">Thu Apr 10</div><div class="sc-reel">Reel 14 &mdash; The Eve Reel</div><div class="sc-time">7:00 AM ET</div></div>
+      <div class="scri sc-launch"><div class="sc-day">Fri Apr 11 &mdash; LAUNCH</div><div class="sc-reel">Reel 15 &mdash; Ancient Roots Is Live</div><div class="sc-time">7:00 AM ET &mdash; URL goes live</div></div>
+      <div class="scri"><div class="sc-day">Sat Apr 12 &mdash; Full Moon Libra</div><div class="sc-reel">Post-launch: 639 Hz Heart Connection</div><div class="sc-time">9:00 AM ET &mdash; ride the search spike</div></div>
+    </div>
+  </div>
+  <div class="icard">
+    <div class="irow"><div class="iico">&#9728;</div><div><div class="ititle">7:00 AM ET &mdash; Primary Window &mdash; Every Reel</div><div class="isub">Confirmed by your top posts. Both 888 Hz posts (716K and 73K), the 741 Hz post (686K), the 111 Hz post (72K) &mdash; all morning. Set alarm 6:45 AM every morning this week.</div></div></div>
+    <div class="irow"><div class="iico">&#128197;</div><div><div class="ititle">Apr 5&ndash;6 &mdash; Weekend Production Gap</div><div class="isub">No scheduled reels Saturday April 5 or Sunday April 6. Use this window to produce and export Reels 11 through 14 before Monday morning. Do not arrive at April 7 without those four reels ready to post.</div></div></div>
+    <div class="irow"><div class="iico">&#128683;</div><div><div class="ititle">Hard Cutoff &mdash; 9:00 AM ET &mdash; No Exceptions</div><div class="isub">The 963 Hz post at 12:25 PM significantly underperformed despite being strong content. If you miss the morning window, wait until the next day's 7 AM slot. A late post is worse than no post during the launch window.</div></div></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     LAUNCH SOP
+============================================================ -->
+<div class="panel" id="p-sop">
+  <div class="sh-lbl">Operational Reference</div>
+  <div class="sh-title">Launch Day SOP &mdash; April 11th</div>
+  <div class="sh-desc">Everything prepared in advance. Zero scrambling on launch morning. Execute in sequence.</div>
+  <div class="icard">
+    <div class="irow"><div class="iico">&#9200;</div><div><div class="ititle">Night Before &mdash; April 10th</div><div class="isub">Reel 15 fully edited and exported to camera roll. URL confirmed live and tested on a clean device. ManyChat ROOTS and FREQUENCY keyword triggers tested and verified. Caption written and saved in Notes app &mdash; including the URL already inserted. Alarm set for 6:30 AM. Sleep.</div></div></div>
+    <div class="irow"><div class="iico">&#128241;</div><div><div class="ititle">6:30 AM April 11 &mdash; Wake and Confirm</div><div class="isub">App URL live and loading correctly. Quiz completes and lands on archetype result. ManyChat flows fire for both ROOTS and FREQUENCY keywords &mdash; test yourself. If anything is broken, Kartik is your first call before 7 AM.</div></div></div>
+    <div class="irow"><div class="iico">&#127926;</div><div><div class="ititle">7:00 AM ET &mdash; Post Reel 15</div><div class="isub">Post with full caption, URL in the caption, all 5 hashtags. Immediately pin the archetype list as the first comment. Post a Facebook Story simultaneously with a "WE ARE LIVE" card at 7:05 AM. This is your highest-leverage 5-minute window of the entire launch.</div></div></div>
+    <div class="irow"><div class="iico">&#128172;</div><div><div class="ititle">7:00&ndash;9:00 AM &mdash; Active Community Management</div><div class="isub">Reply to every comment in the first 2 hours. Early replies signal high-quality engagement to the algorithm and accelerate cold distribution. In every reply ask: "What archetype are you?" &mdash; keeps the conversation running and drives more comments which drives more reach.</div></div></div>
+    <div class="irow"><div class="iico">&#128200;</div><div><div class="ititle">End of Day &mdash; First Metrics Check</div><div class="isub">Watch time per view (target 17s+ matching your top posts), share rate, and new follows are your three leading indicators. If average view time is below 15 seconds, the hook needs adjustment for a follow-up post within 48 hours.</div></div></div>
+  </div>
+  <div class="alert al-gold"><strong>ManyChat critical check:</strong> Keywords ROOTS and FREQUENCY must trigger the DM flow automatically. Test both yourself before 7 AM on launch day. A broken ManyChat on launch morning is a conversion window that cannot be recovered &mdash; this check takes 60 seconds and is non-negotiable.</div>
+</div>
+
+<!-- ============================================================
+     SOURCES
+============================================================ -->
+<div class="panel" id="p-src">
+  <div class="sh-lbl">Research and References</div>
+  <div class="sh-title">Verified Sources &mdash; 10 Peer-Referenced</div>
+  <div class="sh-desc">All science claims in this dashboard are backed by peer-reviewed research or credible institutional sources.</div>
+
+  <div class="src-cat">&#127962; 111 Hz &mdash; Archaeoacoustics and the Hal Saflieni Hypogeum</div>
+  <a class="src-link" href="https://eprints.hud.ac.uk/30678/1/archaeoacoustic%20Study%20of%20Hypogeum_Till%20author%20copy.pdf" target="_blank" rel="noopener">
+    <div class="src-num" style="background:var(--td);border:1px solid var(--tb);color:var(--teal)">1</div>
+    <div class="src-body"><div class="src-title">Debertolis et al. &mdash; Archaeoacoustic Analysis of the Hal Saflieni Hypogeum (Peer-Reviewed)</div><div class="src-desc">Strong resonances in 110&ndash;114 Hz range, evidence of deliberate acoustic design. University of Huddersfield.</div><div class="src-url">eprints.hud.ac.uk</div></div>
+    <div class="src-arrow">&#8599;</div>
+  </a>
+  <a class="src-link" href="https://www.um.edu.mt/library/oar/bitstream/123456789/16630/1/OA%20Archaeoacoustic%20Analysis%20of%20the%20%C4%A6al%20Saflieni%20Hypogeum%20in%20Malta.pdf" target="_blank" rel="noopener">
+    <div class="src-num" style="background:var(--td);border:1px solid var(--tb);color:var(--teal)">2</div>
+    <div class="src-body"><div class="src-title">Archaeoacoustic Analysis &mdash; University of Malta Open Access</div><div class="src-desc">Open access version of the Hypogeum resonance study via University of Malta library.</div><div class="src-url">um.edu.mt</div></div>
+    <div class="src-arrow">&#8599;</div>
+  </a>
+  <a class="src-link" href="https://www.academia.edu/67552976/Archaeoacoustics_Physiological_Effects_of_Sound_in_Ancient_Megaliths" target="_blank" rel="noopener">
+    <div class="src-num" style="background:var(--td);border:1px solid var(--tb);color:var(--teal)">3</div>
+    <div class="src-body"><div class="src-title">Archaeoacoustics: Physiological Effects of Sound in Ancient Megaliths</div><div class="src-desc">Physiological responses to resonant frequencies in megalithic structures.</div><div class="src-url">academia.edu</div></div>
+    <div class="src-arrow">&#8599;</div>
+  </a>
+  <a class="src-link" href="https://www.gresham.ac.uk/sites/default/files/watch-downloads/2019-01-14_TomService_SacredListening_PP-PaulDevereux.pdf" target="_blank" rel="noopener">
+    <div class="src-num" style="background:var(--td);border:1px solid var(--tb);color:var(--teal)">4</div>
+    <div class="src-body"><div class="src-title">Paul Devereux &mdash; Sound at Ancient Sites (Gresham College)</div><div class="src-desc">Archaeoacoustics research including the Hypogeum and Irish cairns in the 95&ndash;120 Hz range.</div><div class="src-url">gresham.ac.uk</div></div>
+    <div class="src-arrow">&#8599;</div>
+  </a>
+
+  <div class="src-cat">&#129504; 40 Hz Gamma &mdash; MIT GENUS Research</div>
+  <a class="src-link" href="https://tsailaboratory.mit.edu/40-hz-vibrations-reduce-alzheimers-pathology-symptoms-in-mouse-models/" target="_blank" rel="noopener">
+    <div class="src-num" style="background:var(--gd);border:1px solid var(--gb);color:var(--gold)">5</div>
+    <div class="src-body"><div class="src-title">MIT Tsai Lab &mdash; 40 Hz Vibrations Reduce Alzheimer's Pathology in Mouse Models</div><div class="src-desc">GENUS research: 40 Hz light and sound reduced amyloid and tau, improved cognition.</div><div class="src-url">tsailaboratory.mit.edu</div></div>
+    <div class="src-arrow">&#8599;</div>
+  </a>
+  <a class="src-link" href="https://tsailaboratory.mit.edu/small-studies-of-40hz-sensory-stimulation-confirm-safety-suggest-alzheimers-benefits/" target="_blank" rel="noopener">
+    <div class="src-num" style="background:var(--gd);border:1px solid var(--gb);color:var(--gold)">6</div>
+    <div class="src-body"><div class="src-title">MIT Tsai Lab &mdash; Small Studies Confirm Safety and Suggest Benefits</div><div class="src-desc">Human safety and feasibility studies for 40 Hz GENUS stimulation.</div><div class="src-url">tsailaboratory.mit.edu</div></div>
+    <div class="src-arrow">&#8599;</div>
+  </a>
+  <a class="src-link" href="https://picower.mit.edu/discoveries/40hz-rhythms-fight-alzheimers-cellular-and-molecular-level" target="_blank" rel="noopener">
+    <div class="src-num" style="background:var(--gd);border:1px solid var(--gb);color:var(--gold)">7</div>
+    <div class="src-body"><div class="src-title">MIT Picower Institute &mdash; 40 Hz Rhythms Fight Alzheimer's at Cellular Level</div><div class="src-desc">How 40 Hz gamma entrainment works at the cellular level including amyloid clearance.</div><div class="src-url">picower.mit.edu</div></div>
+    <div class="src-arrow">&#8599;</div>
+  </a>
+  <a class="src-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11952037/" target="_blank" rel="noopener">
+    <div class="src-num" style="background:var(--gd);border:1px solid var(--gb);color:var(--gold)">8</div>
+    <div class="src-body"><div class="src-title">PMC 2025 &mdash; 40 Hz Multisensory Stimulation Therapy Review</div><div class="src-desc">2025 open-access review of all animal and human data on 40 Hz stimulation.</div><div class="src-url">pmc.ncbi.nlm.nih.gov</div></div>
+    <div class="src-arrow">&#8599;</div>
+  </a>
+
+  <div class="src-cat">&#127925; 528 Hz &mdash; Cortisol, Oxytocin, Love Frequency</div>
+  <a class="src-link" href="https://www.scirp.org/journal/paperinformation?paperid=87146" target="_blank" rel="noopener">
+    <div class="src-num" style="background:var(--ad);border:1px solid var(--ab);color:var(--amber)">9</div>
+    <div class="src-body"><div class="src-title">Akimoto et al. (2018) &mdash; Effect of 528 Hz Music on the Endocrine and Autonomic Nervous Systems</div><div class="src-desc">Significant cortisol reduction and oxytocin increase after 528 Hz music vs. 440 Hz. Peer-reviewed.</div><div class="src-url">scirp.org</div></div>
+    <div class="src-arrow">&#8599;</div>
+  </a>
+  <a class="src-link" href="https://soundtherapy.education/528-hz-and-sound-therapy/" target="_blank" rel="noopener">
+    <div class="src-num" style="background:var(--ad);border:1px solid var(--ab);color:var(--amber)">10</div>
+    <div class="src-body"><div class="src-title">Sound Therapy Education &mdash; The Healing Power of 528 Hz (Akimoto Summary)</div><div class="src-desc">Plain-language breakdown of the Akimoto cortisol/oxytocin findings. Useful for DM replies when followers ask for proof.</div><div class="src-url">soundtherapy.education</div></div>
+    <div class="src-arrow">&#8599;</div>
+  </a>
+</div>
+
+  </div><!-- /scroll -->
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- MOBILE NAV -->
+<nav class="mob-nav">
+  <div class="mob-inner">
+    <div class="mi on" onclick="mshow('ov',this)"><div class="mi-ico">&#128202;</div><div class="mi-lbl">Home</div></div>
+    <div class="mi" onclick="mshow('dt',this)"><div class="mi-ico">&#128200;</div><div class="mi-lbl">Data</div></div>
+    <div class="mi" onclick="mshow('tr',this)"><div class="mi-ico">&#128249;</div><div class="mi-lbl">Top Reels</div></div>
+    <div class="mi" onclick="mshow('sw',this)"><div class="mi-ico">&#127919;</div><div class="mi-lbl">Schwartz</div></div>
+    <div class="mi" onclick="mshow('r15',this)"><div class="mi-ico">&#9989;</div><div class="mi-lbl">1-6</div></div>
+    <div class="mi" onclick="mshow('r710',this)"><div class="mi-ico">&#128308;</div><div class="mi-lbl">7-10</div></div>
+    <div class="mi" onclick="mshow('r1115',this)"><div class="mi-ico">&#128640;</div><div class="mi-lbl">11-15</div></div>
+    <div class="mi" onclick="mshow('cp',this)"><div class="mi-ico">&#9998;</div><div class="mi-lbl">Playbook</div></div>
+    <div class="mi" onclick="mshow('sch',this)"><div class="mi-ico">&#128197;</div><div class="mi-lbl">Schedule</div></div>
+    <div class="mi" onclick="mshow('sop',this)"><div class="mi-ico">&#9989;</div><div class="mi-lbl">SOP</div></div>
+  </div>
+</nav>
+
+<script>
+const IDS=['ov','dt','tr','sw','r15','r710','r1115','cp','arc','sch','sop','src'];
+const TITLES={ov:'Dashboard',dt:'Performance Data',tr:'Top Reels Analysis',sw:'Schwartz Framework',r15:'Reels 1-6 (Posted)',r710:'Reels 7-10',r1115:'Reels 11-15',cp:'Copy Playbook',arc:'Archetypes',sch:'Schedule',sop:'Launch SOP',src:'Research Sources'};
+function show(id,el){
+  IDS.forEach(k=>{const p=document.getElementById('p-'+k);if(p)p.classList.remove('on')});
+  const t=document.getElementById('p-'+id);if(t)t.classList.add('on');
+  document.getElementById('ptitle').textContent=TITLES[id]||id;
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  if(el)el.classList.add('on');
+  document.getElementById('scroll').scrollTop=0;
+}
+function mshow(id,el){
+  show(id,null);
+  document.querySelectorAll('.mi').forEach(m=>m.classList.remove('on'));
+  if(el)el.classList.add('on');
+}
+function tog(id){const e=document.getElementById(id);if(e)e.classList.toggle('open')}
+</script>
+</body>
+</html>
